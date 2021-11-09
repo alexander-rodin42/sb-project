@@ -2,6 +2,8 @@
 #include <string>
 
 char MoveSymbol (char leftBorder, char rightBorder, int alphabetShift, char symbol) {
+    alphabetShift %= 26;
+
     if (alphabetShift > 0) {
         if (symbol > rightBorder - alphabetShift) {
             return (char) (leftBorder + alphabetShift - (rightBorder - symbol) - 1);
@@ -20,6 +22,7 @@ char MoveSymbol (char leftBorder, char rightBorder, int alphabetShift, char symb
 }
 
 std::string EncryptCaesar(int alphabetShift, std::string message) {
+
     std::string result;
 
     for (int i = 0; i < message.length(); i++) {
