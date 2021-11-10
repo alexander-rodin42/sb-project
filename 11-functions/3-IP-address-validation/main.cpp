@@ -19,23 +19,41 @@ bool CheckNumber (std::string number) {
     }
 }
 
-std::string CheckIpAddress (const std::string& ipAddress) {
+//std::string CheckIpAddress (const std::string& ipAddress) {
+//
+//    int pointsAmount = 0;
+//    std::string currentNumber;
+//
+//    for (char i : ipAddress) {
+//        if (i == '.') {
+//            if (!CheckNumber( currentNumber)) {
+//                return "No";
+//            }
+//            pointsAmount++;
+//            currentNumber = "";
+//        } else {
+//            currentNumber += i;
+//        }
+//    }
+//    if (!CheckNumber( currentNumber)) {
+//        return "No";
+//    }
+//    return pointsAmount == 3 ? "Yes" : "No";
+//}
+
+std::string CheckIpAddress (std::string ipAddress) {
 
     int pointsAmount = 0;
-    std::string currentNumber;
 
-    for (char i : ipAddress) {
-        if (i == '.') {
-            if (!CheckNumber( currentNumber)) {
-                return "No";
-            }
-            pointsAmount++;
-            currentNumber = "";
-        } else {
-            currentNumber += i;
+    while (ipAddress.find('.') != std::string::npos) {
+        if (!CheckNumber( ipAddress.substr(0, ipAddress.find('.')))) {
+            return "No";
         }
+        pointsAmount++;
+        ipAddress = ipAddress.substr(ipAddress.find('.') + 1, ipAddress.length());
     }
-    if (!CheckNumber( currentNumber)) {
+
+    if (!CheckNumber( ipAddress)) {
         return "No";
     }
     return pointsAmount == 3 ? "Yes" : "No";
