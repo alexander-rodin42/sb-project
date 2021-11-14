@@ -81,8 +81,8 @@ std::string CompareNumbers (std::string firstNumber, std::string secondNumber) {
     } else if (firstNumber[0] == '-' && secondNumber[0] != '-') {
         return "Less";
     } else {
-        bool firstNumberLonger = GetInteger(firstNumber).length() > GetInteger(secondNumber).length();
-        bool secondNumberLonger = GetInteger(firstNumber).length() < GetInteger(secondNumber).length();
+        bool firstNumberLonger = GetInteger( firstNumber).length() > GetInteger( secondNumber).length();
+        bool secondNumberLonger = GetInteger( firstNumber).length() < GetInteger( secondNumber).length();
 
         if (firstNumber[0] == '-' && secondNumber[0] == '-') {
             firstNumber = RemoveMinus(firstNumber);
@@ -93,14 +93,14 @@ std::string CompareNumbers (std::string firstNumber, std::string secondNumber) {
             } else if (secondNumberLonger) {
                 return "More";
             } else {
-                if (GetInteger(firstNumber) > GetInteger(secondNumber)) {
+                if (GetInteger( firstNumber) > GetInteger( secondNumber)) {
                     return "Less";
-                } else if (GetInteger(firstNumber) < GetInteger(secondNumber)) {
+                } else if (GetInteger( firstNumber) < GetInteger( secondNumber)) {
                     return "More";
                 } else {
-                    if (GetFractionalPart(firstNumber) > GetFractionalPart(secondNumber)) {
+                    if (GetFractionalPart( firstNumber) > GetFractionalPart( secondNumber)) {
                         return "Less";
-                    } else if (GetFractionalPart(firstNumber) < GetFractionalPart(secondNumber)) {
+                    } else if (GetFractionalPart( firstNumber) < GetFractionalPart( secondNumber)) {
                         return "More";
                     } else {
                         return "Equal";
@@ -113,14 +113,14 @@ std::string CompareNumbers (std::string firstNumber, std::string secondNumber) {
             } else if (secondNumberLonger) {
                 return "Less";
             } else {
-                if (GetInteger(firstNumber) > GetInteger(secondNumber)) {
+                if (GetInteger( firstNumber) > GetInteger( secondNumber)) {
                     return "More";
-                } else if (GetInteger(firstNumber) < GetInteger(secondNumber)) {
+                } else if (GetInteger( firstNumber) < GetInteger( secondNumber)) {
                     return "Less";
                 } else {
-                    if (GetFractionalPart(firstNumber) > GetFractionalPart(secondNumber)) {
+                    if (GetFractionalPart( firstNumber) > GetFractionalPart( secondNumber)) {
                         return "More";
-                    } else if (GetFractionalPart(firstNumber) < GetFractionalPart(secondNumber)) {
+                    } else if (GetFractionalPart( firstNumber) < GetFractionalPart( secondNumber)) {
                         return "Less";
                     } else {
                         return "Equal";
