@@ -40,7 +40,7 @@ std::string GetInteger (std::string number) {
 
     bool firstNumberZero = true;
     do {
-        if (number[0] == '0') {
+        if (number.length() > 1 && number[0] == '0') {
             number = number.substr(1, number.length());
         } else {
             firstNumberZero = false;
