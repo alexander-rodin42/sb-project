@@ -9,24 +9,34 @@ int main() {
         std::cin >> userNumbers[i];
     }
 
-    float minimumNumber;
-    int minimumIndex;
-
-    for (int i = 0; i < 14; i++) {
-        minimumNumber = userNumbers[i];
-        minimumIndex = i;
+    for (int i = 0; i < 15; i++) {
         for (int j = i + 1; j < 15; j++) {
-            if (userNumbers[j] < minimumNumber) {
-                minimumNumber = userNumbers[j];
-                minimumIndex = j;
+            if (userNumbers[j] < userNumbers[i]) {
+                float minimumNumber = userNumbers[j];
+                userNumbers[j] = userNumbers[i];
+                userNumbers[i] = minimumNumber;
             }
         }
-
-        for (int j = minimumIndex; j > i; j--) {
-            userNumbers[j] = userNumbers[j - 1];
-        }
-        userNumbers[i] = minimumNumber;
     }
+
+//    float minimumNumber;
+//    int minimumIndex;
+//
+//    for (int i = 0; i < 14; i++) {
+//        minimumNumber = userNumbers[i];
+//        minimumIndex = i;
+//        for (int j = i + 1; j < 15; j++) {
+//            if (userNumbers[j] < minimumNumber) {
+//                minimumNumber = userNumbers[j];
+//                minimumIndex = j;
+//            }
+//        }
+//
+//        for (int j = minimumIndex; j > i; j--) {
+//            userNumbers[j] = userNumbers[j - 1];
+//        }
+//        userNumbers[i] = minimumNumber;
+//    }
 
     for (float i : userNumbers) {
         std::cout << i << " ";
