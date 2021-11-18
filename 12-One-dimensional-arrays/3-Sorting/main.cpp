@@ -9,7 +9,7 @@ int main() {
         std::cin >> userNumbers[i];
     }
 
-    for (int i = 0; i < 15; i++) {
+    for (int i = 0; i < 14; i++) {
         for (int j = i + 1; j < 15; j++) {
             if (userNumbers[j] < userNumbers[i]) {
                 float minimumNumber = userNumbers[j];
@@ -17,6 +17,7 @@ int main() {
                 userNumbers[i] = minimumNumber;
             }
         }
+    }
     }
 
 //    float minimumNumber;
