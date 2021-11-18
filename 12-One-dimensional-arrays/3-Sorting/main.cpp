@@ -8,7 +8,6 @@ int main() {
         std::cout << i << " - ";
         std::cin >> userNumbers[i];
     }
-
     for (int i = 0; i < 14; i++) {
         for (int j = i + 1; j < 15; j++) {
             if (userNumbers[j] < userNumbers[i]) {
