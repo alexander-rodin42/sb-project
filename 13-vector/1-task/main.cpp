@@ -1,15 +1,24 @@
 #include <iostream>
 #include <vector>
 
-std::vector<int> RemoveNumbers (const std::vector<int>& numbers, int deleteNumbers) {
-    std::vector<int> result;
+//std::vector<int> RemoveNumbers (const std::vector<int>& numbers, int deleteNumbers) {
+//    std::vector<int> result;
+//
+//    for (int number : numbers) {
+//        if (number != deleteNumbers) {
+//            result.push_back(number);
+//        }
+//    }
+//    return result;
+//}
 
-    for (int number : numbers) {
-        if (number != deleteNumbers) {
-            result.push_back(number);
+void RemoveNumbers (std::vector<int>& numbers, int deleteNumbers) {
+    for (int i = 0; i < numbers.size(); i++) {
+        if (numbers[i] == deleteNumbers) {
+            numbers.erase( numbers.begin() + i);
+            i--;
         }
     }
-    return result;
 }
 
 void printVector (const std::vector<int>& vector) {
@@ -37,12 +46,12 @@ int main() {
     std::cout << "Enter the number to remove:";
     std::cin >> deleteNumber;
 
-    numbers = RemoveNumbers( numbers, deleteNumber);
+    RemoveNumbers( numbers, deleteNumber);
 
     if (numbers.empty()) {
         std::cout << "Vector is empty." << std::endl;
     } else {
-        printVector(numbers);
+        printVector( numbers);
     }
 
     return 0;
