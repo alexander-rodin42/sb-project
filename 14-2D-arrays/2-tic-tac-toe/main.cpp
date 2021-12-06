@@ -43,7 +43,7 @@ char CurrentPlayerStep (const std::string& currentPlayer, char symbol, char play
     bool inputCorrect;
 
     do {
-        std::cin >> vertical >> horizontal;
+        std::cin >> horizontal >> vertical;
 
         inputCorrect = vertical > 0 && vertical <= 3
                        && horizontal > 0 && horizontal <= 3
