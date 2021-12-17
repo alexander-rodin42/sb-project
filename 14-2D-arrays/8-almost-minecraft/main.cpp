@@ -11,34 +11,14 @@ int UserInput (int& coordinateX, int& coordinateY) {
 }
 
 int UserInput () {
-    std::string axis;
-    int input;
-    bool inputCorrect;
-
-    do {
-        std::cout << "To exit enter \"exit\"" << std::endl;
-        std::cout << "Enter the coordinate axis (x or y): ";
-        std::cin >> axis;
-
-        inputCorrect = axis == "x" || axis == "y" || axis == "exit";
-    } while (!inputCorrect);
-
-    if (axis == "exit") {
-        return -1;
-    }
+    int result;
 
     do {
         std::cout << "Enter the section number (from 1 to 5): ";
-        std::cin >> input;
+        std::cin >> result;
+    } while (result < 1 || result > 5);
 
-        inputCorrect = input > 0 && input <= 5;
-    } while (!inputCorrect);
-
-    if (axis == "x") {
-        return input + 9;
-    } else {
-        return input + 19;
-    }
+    return result - 1;
 }
 
 void InitializeLandscape (bool (&landscape)[5][5][10]) {
@@ -84,74 +64,82 @@ void PrintTopView (bool (&landscape)[5][5][10]) {
     std::cout << std::endl;
 }
 
-void PrintView (bool (&landscape)[5][5][10], int currentSection) {
-    if (currentSection > 20) {
-        currentSection %= 10;
+void PrintFrontView (bool (&landscape)[5][5][10], int currentSection) {
+    std::cout << std::endl;
+    std::cout << "  z  Front view" << std::endl;
+    std::cout << "  ^" << std::endl;
 
-        std::cout << std::endl;
-        std::cout << "  z  Front view" << std::endl;
-        std::cout << "  ^" << std::endl;
-
-        for (int z = 9; z >= 0; z--) {
-            if (z == 9) {
-                std::cout << z + 1 << "| ";
-            } else {
-                std::cout << z + 1 << " | ";
-            }
-
-            for (int x = 0; x < 5; x++) {
-                if (landscape[currentSection][x][z]) {
-                    std::cout << "X  ";
-                } else {
-                    std::cout << "0  ";
-                }
-            }
-            std::cout << std::endl;
+    for (int z = 9; z >= 0; z--) {
+        if (z == 9) {
+            std::cout << z + 1 << "| ";
+        } else {
+            std::cout << z + 1 << " | ";
         }
-        std::cout << "  +--------------> x" << std::endl;
-        std::cout << "    1  2  3  4  5" << std::endl;
-        std::cout << std::endl;
-    } else {
-        currentSection %= 10;
 
-        std::cout << std::endl;
-        std::cout << "  z   Right view" << std::endl;
-        std::cout << "  ^" << std::endl;
-
-        for (int z = 9; z >= 0; z--) {
-            if (z == 9) {
-                std::cout << z + 1 << "| ";
+        for (int x = 0; x < 5; x++) {
+            if (landscape[currentSection][x][z]) {
+                std::cout << "X  ";
             } else {
-                std::cout << z + 1 << " | ";
+                std::cout << "0  ";
             }
-
-            for (int y = 0; y < 5; y++) {
-                if (landscape[y][currentSection][z]) {
-                    std::cout << "X  ";
-                } else {
-                    std::cout << "0  ";
-                }
-            }
-            std::cout << std::endl;
         }
-        std::cout << "  +--------------> y" << std::endl;
-        std::cout << "    1  2  3  4  5" << std::endl;
         std::cout << std::endl;
     }
+    std::cout << "  +--------------> x" << std::endl;
+    std::cout << "    1  2  3  4  5" << std::endl;
+    std::cout << std::endl;
+}
+
+void PrintRightView (bool (&landscape)[5][5][10], int currentSection) {
+    std::cout << std::endl;
+    std::cout << "  z   Right view" << std::endl;
+    std::cout << "  ^" << std::endl;
+
+    for (int z = 9; z >= 0; z--) {
+        if (z == 9) {
+            std::cout << z + 1 << "| ";
+        } else {
+            std::cout << z + 1 << " | ";
+        }
+
+        for (int y = 0; y < 5; y++) {
+            if (landscape[y][currentSection][z]) {
+                std::cout << "X  ";
+            } else {
+                std::cout << "0  ";
+            }
+        }
+        std::cout << std::endl;
+    }
+    std::cout << "  +--------------> y" << std::endl;
+    std::cout << "    1  2  3  4  5" << std::endl;
+    std::cout << std::endl;
 }
 
 void BuildSection (bool (&landscape)[5][5][10]) {
+    std::string command;
     int section;
 
     do {
         PrintTopView( landscape);
+        bool inputCorrect;
 
-        section = UserInput();
+        do {
+            std::cout << "To exit enter \"exit\"" << std::endl;
+            std::cout << "Enter the coordinate axis (x or y): ";
+            std::cin >> command;
 
-        if (section > 0) {
-            PrintView( landscape, section);
+            inputCorrect = command == "x" || command == "y" || command == "exit";
+        } while (!inputCorrect);
+
+        if (command == "x") {
+            section = UserInput();
+            PrintRightView( landscape, section);
+        } else if (command == "y") {
+            section = UserInput();
+            PrintFrontView( landscape, section);
         }
-    } while (section > 0);
+    } while (command != "exit");
 }
 
 int main() {
