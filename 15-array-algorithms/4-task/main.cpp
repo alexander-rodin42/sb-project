@@ -12,7 +12,7 @@ void SortArrayAbs (int (&numbers)[6]) {
     for (int i = 6; i > 0; i--) {
         for (int j = 0; j < i; j++) {
             if ( abs( numbers[j]) > abs( numbers[j + 1])) { // (numbers[j] * numbers[j] > numbers[j + 1] * numbers[j + 1])
-                int temp = numbers[j];                              // pow( numbers[j]) > pow( numbers[j + 1])
+                int temp = numbers[j];                      // pow( numbers[j]) > pow( numbers[j + 1])
                 numbers[j] = numbers[j + 1];
                 numbers[j + 1] = temp;
             }
