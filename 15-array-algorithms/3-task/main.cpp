@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 
-int userInput () {
+int UserInput () {
     int input;
 
     do {
@@ -14,7 +14,7 @@ int userInput () {
     return input;
 }
 
-void sortVector (std::vector<int>& numbers) {
+void SortVector (std::vector<int>& numbers) {
     for (int i = numbers.size() - 1; i > 0; i--) {
         for (int j = 0; j < i; j++) {
             int temp;
@@ -27,7 +27,7 @@ void sortVector (std::vector<int>& numbers) {
     }
 }
 
-void printVector (const std::vector<int>& numbers) {
+void PrintVector (const std::vector<int>& numbers) {
     for (int number : numbers) {
         std::cout << number << " ";
     }
@@ -39,13 +39,13 @@ int main() {
     int number = 0;
 
     do {
-        number = userInput();
+        number = UserInput();
 
         if (number > 0) {
             numbers.push_back(number);
         } else if (number == -1) {
-            sortVector( numbers);
-            //printVector( numbers);
+            SortVector( numbers);
+            //PrintVector( numbers);
 
             if (numbers.size() >= 5) {
                 std::cout << numbers[4] << std::endl;
