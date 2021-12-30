@@ -25,6 +25,7 @@ void SortVector (std::vector<int>& numbers) {
             }
         }
     }
+    numbers.resize( 5);
 }
 
 void PrintVector (const std::vector<int>& numbers) {
