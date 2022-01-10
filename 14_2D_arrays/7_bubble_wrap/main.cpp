@@ -71,7 +71,7 @@ void BurstBubbles (bool (&bubbles)[12][12]) {
             for (int j = minX; j <= maxX; j++) {
                 if (bubbles[i][j]) {
                     bubbles[i][j] = false;
-                    std::cout << i + 1 << " " << j + 1 << " - " << "Pop!" << std::endl;
+                    std::cout << j + 1 << " " << i + 1 << " - " << "Pop!" << std::endl;
                     numberBubblesBurst++;
                 }
             }
