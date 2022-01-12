@@ -2,8 +2,8 @@
 #include <sstream>
 
 int main() {
-    int integer,
-        fraction;
+    std::string integer,
+                fraction;
 
     std::cout << "Enter the whole part of the number: ";
     std::cin >> integer;
@@ -15,6 +15,9 @@ int main() {
 
     double result = 0.0;
     number >> result;
+
+    std::cout.setf(std::ios::fixed);
+    std::cout.precision(10);
 
     std::cout << result << std::endl;
     return 0;
