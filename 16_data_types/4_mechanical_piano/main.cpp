@@ -1,13 +1,13 @@
 #include <iostream>
 
 enum notes {
-    C = 1,  // до
-    D,      // ре
-    E,      // ми
-    F,      // фа
-    G,      // соль
-    A,      // ля
-    B,      // си
+    DO = 1 << 0,
+    RE = 1 << 1,
+    MI = 1 << 2,
+    FA = 1 << 3,
+    SOL = 1 << 4,
+    LA = 1 << 5,
+    SI = 1 << 6
 };
 
 const int LINES = 12;
@@ -23,27 +23,27 @@ int main() {
 
     for (auto & i : melody) {
         for (auto & j : i) {
-            int currentSymbol = int (j - '0');
+            int currentSymbol = 1 << int (j - '1');
 
-            if (currentSymbol == C) {
+            if (currentSymbol == DO) {
                 std::cout << "do ";
             }
-            else if (currentSymbol == D) {
+            else if (currentSymbol == RE) {
                 std::cout << "re ";
             }
-            else if (currentSymbol == E) {
+            else if (currentSymbol == MI) {
                 std::cout << "mi ";
             }
-            else if (currentSymbol == F) {
+            else if (currentSymbol == FA) {
                 std::cout << "fa ";
             }
-            else if (currentSymbol == G) {
+            else if (currentSymbol == SOL) {
                 std::cout << "sol ";
             }
-            else if (currentSymbol == A) {
+            else if (currentSymbol == LA) {
                 std::cout << "la ";
             }
-            else if (currentSymbol == B) {
+            else if (currentSymbol == SI) {
                 std::cout << "si ";
             }
         }
