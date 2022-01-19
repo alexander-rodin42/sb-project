@@ -25,25 +25,25 @@ int main() {
         for (auto & j : i) {
             int currentSymbol = 1 << int (j - '1');
 
-            if (currentSymbol == DO) {
+            if (currentSymbol & DO) {
                 std::cout << "do ";
             }
-            else if (currentSymbol == RE) {
+            else if (currentSymbol & RE) {
                 std::cout << "re ";
             }
-            else if (currentSymbol == MI) {
+            else if (currentSymbol & MI) {
                 std::cout << "mi ";
             }
-            else if (currentSymbol == FA) {
+            else if (currentSymbol & FA) {
                 std::cout << "fa ";
             }
-            else if (currentSymbol == SOL) {
+            else if (currentSymbol & SOL) {
                 std::cout << "sol ";
             }
-            else if (currentSymbol == LA) {
+            else if (currentSymbol & LA) {
                 std::cout << "la ";
             }
-            else if (currentSymbol == SI) {
+            else if (currentSymbol & SI) {
                 std::cout << "si ";
             }
         }
