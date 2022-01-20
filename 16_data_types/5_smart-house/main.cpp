@@ -125,7 +125,7 @@ int main() {
     std::cout << "Input example: 1 0 23.1 15.2" << std::endl;
     std::cout << "Indoor movement, outside movement, indoor temperature, outside temperature." << std::endl;
 
-    for (int hours = 16; hours < HOURS_SIMULATION; hours++) {
+    for (int hours = 0; hours < HOURS_SIMULATION; hours++) {
         std::string input;
 
         std::cout << "The current time is " << hours % HOURS_IN_A_DAY << ":00 hours, enter the state of the sensors:" << std::endl;
