@@ -11,18 +11,22 @@ int main() {
 
     file.open("C:\\Users\\Alexander\\Desktop\\sb-project\\19_reading_from_files\\1_word_search\\words.txt");
 
-    while (!file.eof()) {
-        std::string temp;
-        file >> temp;
+    if (file.is_open()) {
+        while (!file.eof()) {
+            std::string temp;
+            file >> temp;
 
-        if (temp == word) {
-            wordCounter++;
+            if (temp == word) {
+                wordCounter++;
+            }
         }
+
+        file.close();
+        std::cout << wordCounter << std::endl;
     }
-
-    file.close();
-    std::cout << wordCounter << std::endl;
-
+    else {
+        std::cout << "Not the right way." << std::endl;
+    }
     return 0;
 }
 
