@@ -47,16 +47,11 @@ int main() {
         }
         sectorStatus[ currentSector] = false;
 
-        for (int i = 0; i < 13; i++) {                                                          //--------------------------------------
-            std::cout << sectorStatus [i] << " ";
-        }
-        std::cout << std::endl;
-
         // Question
-        std::cout << "Question N" << currentSector + 1 << ":" << std::endl;
         file.open(folderPath + "\\q" + std::to_string(currentSector) + ".txt", std::ios::binary);
 
         if (file.is_open()) {
+            std::cout << "Question N" << currentSector + 1 << ":" << std::endl;
             char buffer[BUFFER_SIZE + 1];
 
             while (!file.eof()) {
