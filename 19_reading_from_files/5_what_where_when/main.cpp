@@ -1,42 +1,111 @@
 #include <iostream>
 #include <fstream>
+#include <string>
+
+const int BUFFER_SIZE = 100;
 
 void Initialize (bool (&array)[13]) {
     for (bool & i : array) {
-        i = false;
+        i = true;
     }
 }
 
 int main() {
-    bool sectorStatus[13];
-    Initialize( sectorStatus);
+    std::string folderPath;
+
+    std::cout << "Enter folder path: ";
+    std::cin >> folderPath;
 
     int currentSector = 0;
     int playerPoints = 0;
     int spectatorPoints = 0;
+    bool fileFound = true;
 
-    std::string folderPath;
-    std::ifstream question;
+    bool sectorStatus[13];
+    Initialize( sectorStatus);
 
-    std::cout << "Enter folder path: ";
-    std::cin >> folderPath;
-    //list.open(filePath);
-
-
-    while (playerPoints < 6 && spectatorPoints < 6) {
+    while (playerPoints < 6 && spectatorPoints < 6 && fileFound) {
+        std::ifstream file;
         int sectorOffset;
+
+        // Sector offset
         std::cout << "Enter sector offset: ";
         std::cin >> sectorOffset;
         currentSector += sectorOffset;
 
-        while ( !sectorStatus[ currentSector]) {
-            currentSector++;
+        if (currentSector >= 13) {
+            currentSector %= 13;
         }
 
+        while ( !sectorStatus[ currentSector]) {
+            if (currentSector < 13) {
+                currentSector++;
+            }
+            else {
+                currentSector = 0;
+            }
+        }
+        sectorStatus[ currentSector] = false;
 
+        for (int i = 0; i < 13; i++) {                                                          //--------------------------------------
+            std::cout << sectorStatus [i] << " ";
+        }
+        std::cout << std::endl;
 
+        // Question
+        std::cout << "Question N" << currentSector + 1 << ":" << std::endl;
+        file.open(folderPath + "\\q" + std::to_string(currentSector) + ".txt", std::ios::binary);
+
+        if (file.is_open()) {
+            char buffer[BUFFER_SIZE + 1];
+
+            while (!file.eof()) {
+                file.read(buffer, BUFFER_SIZE);
+                buffer[file.gcount()] = '\0';
+                std::cout << buffer;
+            }
+            std::cout << std::endl;
+            file.close();
+
+            // Answer
+            file.open( folderPath + "\\a" + std::to_string( currentSector) + ".txt");
+
+            if (file.is_open()) {
+                std::cout << "Enter your answer: ";
+                std::string answer,
+                            temp;
+
+                std::cin >> answer;
+                file >> temp;
+
+                if (answer == temp) {
+                    playerPoints++;
+                    std::cout << "Right! The player gets 1 point. Total:" << playerPoints << std::endl;
+                }
+                else {
+                    spectatorPoints++;
+                    std::cout << "Not true. Spectators get 1 point. Total:" << spectatorPoints << std::endl;
+                }
+
+                file.close();
+            }
+            else {
+                std::cout << "Response file not found." << std::endl;
+                fileFound = false;
+            }
+        }
+        else {
+            std::cout << "Question file not found." << std::endl;
+            fileFound = false;
+        }
     }
 
+    if (playerPoints >= 6) {
+        std::cout << "The player has won!" << std::endl;
+    }
+    else if (spectatorPoints >= 6) {
+        std::cout << "The viewers have won!" << std::endl;
+    }
     return 0;
 }
 
