@@ -51,6 +51,7 @@ int main() {
         file.open(folderPath + "\\q" + std::to_string(currentSector) + ".txt", std::ios::binary);
 
         if (file.is_open()) {
+            std::cout << "______________________________________" << std::endl;
             std::cout << "Question N" << currentSector + 1 << ":" << std::endl;
             char buffer[BUFFER_SIZE + 1];
 
@@ -75,11 +76,11 @@ int main() {
 
                 if (answer == temp) {
                     playerPoints++;
-                    std::cout << "Right! The player gets 1 point. Total:" << playerPoints << std::endl;
+                    std::cout << std::endl << "Right! The player gets 1 point. Total:" << playerPoints << std::endl;
                 }
                 else {
                     spectatorPoints++;
-                    std::cout << "Not true. Spectators get 1 point. Total:" << spectatorPoints << std::endl;
+                    std::cout << std::endl << "Not true. Spectators get 1 point. Total:" << spectatorPoints << std::endl;
                 }
 
                 file.close();
