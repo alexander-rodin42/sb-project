@@ -66,7 +66,7 @@ bool CheckDate (const std::string& date) {
     }
 
     int day = std::stoi(date.substr(0, 2));
-    int month =  std::stoi(date.substr(3, 2));
+    int month = std::stoi(date.substr(3, 2));
     int year = std::stoi(date.substr(6, 4));
 
     if ( !ConfirmDateIsCorrect( day, month, year)) {
@@ -153,6 +153,7 @@ int main() {
         if ( !FileIsEmpty( folderPath + "\\list.txt")) {
             outFile << std::endl;
         }
+
         outFile << firstName << " " << lastName << " " << paymentDate << " " << amountMoney;
         outFile.close();
     }
