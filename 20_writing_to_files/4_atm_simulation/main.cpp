@@ -52,7 +52,6 @@ void GetBank (const std::string& path, int (&numberOfBanknotes)[6]) {
 void SelectBanknotes (const int (&banknotesInBank)[6], int& amountRequired, int (&necessaryBanknotes)[6]) {
     int banknotes[6] = {100, 200, 500, 1000, 2000, 5000};
 
-    //// ошибка тут.
     for (int i = 5; i >= 0; i--) {
         if (amountRequired >= banknotes[i] && banknotesInBank[i] > 0) {
             if (banknotesInBank[i] < amountRequired / banknotes[i]) {
