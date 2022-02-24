@@ -86,88 +86,6 @@ struct Building {
             floors[floors.size() - 1].number = int(floors.size());
         }
     }
-
-    void SetParameters () {
-        do {
-            std::cout << "Choose the type for building #" << this->number << "." << std::endl;
-            std::cout << "1 - House"     << std::endl;
-            std::cout << "2 - Garage"    << std::endl;
-            std::cout << "3 - Barn"      << std::endl;
-            std::cout << "4 - Bathhouse" << std::endl;
-            std::cout << "Enter building type number: ";
-            std::cin >> this->buildingType;
-        }
-        while (this->buildingType < 1 || this->buildingType > 4);
-
-        do {
-            std::cout << "Enter building area #" << this->number << ": ";
-            std::cin >> this->area;
-        }
-        while (this->area < 0);
-
-        int floorsNumber;
-        do {
-            std::cout << "Maximum number of floors for the current building type (" << GetBuildingType(this->buildingType) << ") - ";
-            std::cout << GetMaxFloors(this->buildingType) << std::endl;
-            std::cout << "Enter the number of floors for building #" << this->number << ": ";
-            std::cin >> floorsNumber;
-        }
-        while ( !(floorsNumber > 0 && floorsNumber <= GetMaxFloors(this->buildingType)));
-
-        this->AddFloors( floorsNumber);
-
-        for (int i = 0; i < this->floors.size(); i++) {
-            if (this->floors[i].number == 1) {
-                std::cout << "-------------------------------" << std::endl;
-                std::cout << "The area of the first floor is equal to the area of the building - " << this->area << "." << std::endl;
-                this->floors[i].area = this->area;
-            }
-            else {
-                do {
-                    std::cout << "  Enter floor area #" << this->floors[i].number << ": ";
-                    std::cin >> this->floors[i].area;
-                    if (this->floors[i].area > this->floors[i - 1].area) {
-                        std::cout << "(!) The area of the floor should not exceed the area of the lower floor." << std::endl;
-                    }
-                }
-                while ( !(this->floors[i].area > 0 && this->floors[i].area <= this->floors[i - 1].area));
-            }
-
-            int roomsNumber;
-            do {
-                std::cout << "Minimum number of rooms: " << GetMinRooms(this->buildingType) << "." << std::endl;
-                std::cout << "Maximum number of rooms: " << GetMaxRooms(this->buildingType) << "." << std::endl;
-                std::cout << "Enter the number of rooms on floor #" << this->floors[i].number << ": ";
-                std::cin >> roomsNumber;
-            }
-            while ( !(roomsNumber >= GetMinRooms(this->buildingType) && roomsNumber <= GetMaxRooms(this->buildingType)));
-
-            this->floors[i].AddRooms( roomsNumber);
-
-            for (auto & floor : this->floors) {
-                double sumArea;
-
-                do {
-                    sumArea = 0;
-                    for (auto & room :  this->floors[i].rooms) {
-
-                        do {
-                            std::cout << "Available area per floor - " << this->floors[i].area - sumArea << "/" << this->floors[i].area << "." << std::endl;
-                            std::cout << "Enter the area of the room #"<< room.number << ": ";
-                            std::cin >> room.area;
-                            sumArea += room.area;
-                        }
-                        while (room.area < 0);
-                    }
-
-                    if (!(sumArea <= this->floors[i].area + 0.01 || sumArea >= this->floors[i].area - 0.01)) {
-                        std::cout << "(!) The total area of the rooms should be equal to the floor area (Accuracy +-0.01)." << std::endl;
-                    }
-                }
-                while ( !(sumArea <= this->floors[i].area + 0.01 || sumArea >= this->floors[i].area - 0.01));
-            }
-        }
-    }
 };
 
 struct Plot {
@@ -175,58 +93,11 @@ struct Plot {
     double area{};
     std::vector<Building> buildings;
 
-    void AddBuildings (const int& buildingsNumber) {
+    void AddBuildings(const int &buildingsNumber) {
         for (int i = 0; i < buildingsNumber; i++) {
             buildings.emplace_back();
             buildings[buildings.size() - 1].number = int(buildings.size());
         }
-    }
-
-    void SetParameters () {
-        do {
-            std::cout << "Enter the area of plot #" << this->number << ": ";
-            std::cin >> this->area;
-        }
-        while (this->area < 0);
-
-        int buildingsNumber;
-
-        do {
-            std::cout << "Enter the number of buildings on lot #" << this->number << ": ";
-            std::cin >> buildingsNumber;
-        }
-        while (buildingsNumber < 1);
-
-        this->AddBuildings( buildingsNumber);
-    }
-
-    void SetBuildingParameters () {
-        double sumArea;
-        int houseCounter;
-
-        do {
-            sumArea = 0.0;
-            houseCounter = 0;
-
-            if (sumArea > this->area) {
-                std::cout << "(!) The total area of buildings cannot exceed the area of the plot." << std::endl;
-            }
-
-            for (auto & building : this->buildings) {
-                std::cout << "-------------------------------" << std::endl;
-                std::cout << "Available area - " << this->area - sumArea << "/" << this->area << "." << std::endl;
-                building.SetParameters();
-                sumArea += building.area;
-
-                if (building.buildingType == HOUSE) {
-                    houseCounter++;
-                }
-            }
-
-            if (houseCounter < 1) {
-                std::cout << "(!) There must be at least 1 house on the site." << std::endl;
-            }
-        } while ( !(sumArea <= this->area && houseCounter > 0));
     }
 };
 
@@ -235,76 +106,235 @@ struct Village {
     double area{};
     std::vector<Plot> plots;
 
-    void AddPlots (const int& plotsNumber) {
+    void AddPlots(const int &plotsNumber) {
         for (int i = 0; i < plotsNumber; i++) {
             plots.emplace_back();
             plots[plots.size() - 1].number = int(plots.size());
         }
     }
-
-    void SetParameters () {
-        std::cout << "Enter the name of the village: ";
-        std::cin >> this->name;
-
-        do {
-            std::cout << "Enter the area of the village: ";
-            std::cin >> this->area;
-        }
-        while (this->area < 0);
-
-        int plotsNumber;
-
-        do {
-            std::cout << "Enter the number of plots of land: ";
-            std::cin >> plotsNumber;
-        }
-        while (plotsNumber < 1);
-
-        this->AddPlots( plotsNumber);
-    }
-
-    void SetPlotsParameters () {
-        double sumArea = 0.0;
-        do {
-            if (sumArea > this->area) {
-                std::cout << "(!) The total area of the plots should not exceed the area of the village." << std::endl;
-                sumArea = 0.0;
-            }
-            for (auto & plot : this->plots) {
-                std::cout << "-------------------------------" << std::endl;
-                std::cout << "Available area - " << this->area - sumArea << "/" << this->area << "." << std::endl;
-                plot.SetParameters();
-                sumArea += plot.area;
-            }
-        } while (sumArea > this->area);
-    }
 };
 
-int main() {
-    Village settlement;
+void SetFloorsParameters (Building& building) {
+    for (int i = 0; i < building.floors.size(); i++) {
+        if (i == 0) {
+            std::cout << "-------------------------------" << std::endl;
+            std::cout << "The area of the first floor is equal to the area of the building - " << building.area << "." << std::endl;
+            building.floors[i].area = building.area;
+        }
+        else {
+            do {
+                std::cout << "  Enter floor area (m2) #" << building.floors[i].number << ": ";
+                std::cin >> building.floors[i].area;
+                if (building.floors[i].area > building.floors[i - 1].area) {
+                    std::cout << "(!) The area of the floor should not exceed the area of the lower floor." << std::endl;
+                }
+            }
+            while ( !(building.floors[i].area > 0 && building.floors[i].area <= building.floors[i - 1].area));
+        }
 
-    settlement.SetParameters();
-    settlement.SetPlotsParameters();
+        int roomsNumber;
+        do {
+            std::cout << "Minimum number of rooms: " << GetMinRooms(building.buildingType) << "." << std::endl;
+            std::cout << "Maximum number of rooms: " << GetMaxRooms(building.buildingType) << "." << std::endl;
+            std::cout << "Enter the number of rooms on floor #" << building.floors[i].number << ": ";
+            std::cin >> roomsNumber;
+        }
+        while ( !(roomsNumber >= GetMinRooms(building.buildingType) && roomsNumber <= GetMaxRooms(building.buildingType)));
 
-    for (auto & plot : settlement.plots) {
+        building.floors[i].AddRooms( roomsNumber);
+
+        double sumArea;
+
+        do {
+            sumArea = 0;
+
+            for (auto & room : building.floors[i].rooms) {
+                do {
+                    std::cout << "Available area per floor - " << building.floors[i].area - sumArea << "/" << building.floors[i].area << "." << std::endl;
+                    std::cout << "Enter the area (m2) of the room #" << room.number << ": ";
+                    std::cin >> room.area;
+                    sumArea += room.area;
+                }
+                while (room.area < 0);
+            }
+
+            if ( !(sumArea <= building.floors[i].area + 0.01 && sumArea >= building.floors[i].area - 0.01)) {
+                std::cout << "(!) The total area of the rooms should be equal to the floor area (accuracy +-0.01)." << std::endl;
+            }
+        }
+        while ( !(sumArea <= building.floors[i].area + 0.01 && sumArea >= building.floors[i].area - 0.01));
+    }
+}
+
+void SetBuilding (Building& building) {
+    do {
+        std::cout << "Choose the type for building #" << building.number << "." << std::endl;
+        std::cout << "1 - House"     << std::endl;
+        std::cout << "2 - Garage"    << std::endl;
+        std::cout << "3 - Barn"      << std::endl;
+        std::cout << "4 - Bathhouse" << std::endl;
+        std::cout << "Enter building type number: ";
+        std::cin >> building.buildingType;
+    }
+    while (building.buildingType < 1 || building.buildingType > 4);
+
+    do {
+        std::cout << "Enter building area (m2) #" << building.number << ": ";
+        std::cin >> building.area;
+    }
+    while (building.area < 0);
+
+    int floorsNumber;
+    do {
+        std::cout << "Maximum number of floors for the current building type (" << GetBuildingType(building.buildingType) << ") - ";
+        std::cout << GetMaxFloors(building.buildingType) << std::endl;
+        std::cout << "Enter the number of floors for building #" << building.number << ": ";
+        std::cin >> floorsNumber;
+    }
+    while ( !(floorsNumber > 0 && floorsNumber <= GetMaxFloors(building.buildingType)));
+    building.AddFloors( floorsNumber);
+}
+
+void SetBuildingsParameters (Plot& plot) {
+    double sumArea;
+    int houseCounter;
+
+    do {
+        sumArea = 0.0;
+        houseCounter = 0;
+
+        if (sumArea > plot.area) {
+            std::cout << "-------------------------------" << std::endl;
+            std::cout << "(!) The total area of buildings cannot exceed the area of the plot." << std::endl;
+        }
+
+        for (auto & building : plot.buildings) {
+            std::cout << "-------------------------------" << std::endl;
+            std::cout << "Available area - " << plot.area - sumArea << "/" << plot.area << "." << std::endl;
+            SetBuilding( building);
+            sumArea += building.area;
+
+            if (building.buildingType == HOUSE) {
+                houseCounter++;
+            }
+
+            SetFloorsParameters( building);
+        }
+
+        if (houseCounter < 1) {
+            std::cout << "(!) There must be at least 1 house on the site." << std::endl;
+        }
+    } while ( !(sumArea <= plot.area && houseCounter > 0));
+
+
+}
+
+void SetPlot (Plot& plot) {
+    do {
+        std::cout << "Enter the area (m2) of plot #" << plot.number << ": ";
+        std::cin >> plot.area;
+    }
+    while (plot.area < 0);
+
+    int buildingsNumber;
+    do {
+        std::cout << "Enter the number of buildings on lot #" << plot.number << ": ";
+        std::cin >> buildingsNumber;
+    }
+    while (buildingsNumber < 1);
+    plot.AddBuildings( buildingsNumber);
+}
+
+void SetPlotsParameters (Village& village) {
+    double sumArea = 0.0;
+
+    do {
+        if (sumArea > village.area) {
+            std::cout << "-------------------------------" << std::endl;
+            std::cout << "(!) The total area of the plots should not exceed the area of the village." << std::endl;
+            sumArea = 0.0;
+        }
+        for (auto & plot : village.plots) {
+            std::cout << "-------------------------------" << std::endl;
+            std::cout << "Available area - " << village.area - sumArea << "/" << village.area << "." << std::endl;
+            SetPlot( plot);
+            sumArea += plot.area;
+        }
+    }
+    while (sumArea > village.area);
+}
+
+void SetVillage (Village& village) {
+    std::cout << "Enter the name of the village: ";
+    std::cin >> village.name;
+
+    do {
+        std::cout << "Enter the area of the village: ";
+        std::cin >> village.area;
+    }
+    while (village.area < 0);
+
+    int plotsNumber;
+
+    do {
+        std::cout << "Enter the number of plots of land: ";
+        std::cin >> plotsNumber;
+    }
+    while (plotsNumber < 1);
+    village.AddPlots( plotsNumber);
+
+    SetPlotsParameters( village);
+
+    for (auto & plot : village.plots) {
         std::cout << "-------------------------------" << std::endl;
         std::cout << "--> Plot #" << plot.number << std::endl;
-        plot.SetBuildingParameters();
+        SetBuildingsParameters( plot);
     }
+}
 
-    for (auto & plot : settlement.plots) {
-        std::cout << "--> Plot #" << plot.number << std::endl;
+void PrintInfo (Village& village) {
+    std::cout << std::endl;
+    std::cout << "--> Plot #" << village.name << " (" << village.area << " m2): " << std::endl;
+    for (auto & plot : village.plots) {
+        std::cout << "--> Plot #" << plot.number << " (" << plot.area << " m2): " << std::endl;
         for (auto & building : plot.buildings) {
-            std::cout << "  Building #" << building.number << " (" << GetBuildingType( building.buildingType) << ")" << std::endl;
+            std::cout << "  Building #" << building.number << " (" << GetBuildingType( building.buildingType);
+            std::cout << " - " << building.area << " m2)" << std::endl;
             for (auto & floor : building.floors) {
-                std::cout << "Floor #" << floor.number << " - ";
+                std::cout << "Floor #" << floor.number << " (" << floor.area << " m2): ";
                 for (auto & room : floor.rooms) {
-                    std::cout << "Room #" << room.number << " - " << room.area << " m2, ";
+                    std::cout << "Room #" << room.number << " - " << room.area << " m2. ";
                 }
                 std::cout << std::endl;
             }
         }
     }
+}
+
+double GetTotalLivingArea (Village& village) {
+    std::cout << std::endl;
+    double result = 0;
+
+    for (auto & plot : village.plots) {
+        for (auto & building : plot.buildings) {
+            for (auto & floor : building.floors) {
+                if (building.buildingType == HOUSE) {
+                    result += floor.area;
+                }
+            }
+        }
+    }
+    return result;
+}
+
+int main() {
+    Village newVillage;
+
+    SetVillage( newVillage);
+    PrintInfo( newVillage);
+
+    std::cout << "Total living area in the village \"" << newVillage.name << "\": " << GetTotalLivingArea( newVillage);
+    std::cout << " m2." << std::endl;
 
     return 0;
 }
