@@ -17,30 +17,30 @@ struct Character {
     int team{};
 
     void SetEnemyParameters (const std::string& nameChar) {
-        this->name = nameChar;
-        this->health = (rand() % 100) + 50;
-        this->armor = rand() % 50;
-        this->damage = (rand() % 15) + 15;
+        name = nameChar;
+        health = (rand() % 100) + 50;
+        armor = rand() % 50;
+        damage = (rand() % 15) + 15;
     }
 
     void SetPlayerParameters () {
         std::cout << "Enter character name: ";
-        std::cin >> this->name;
+        std::cin >> name;
 
         do {
             std::cout << "Enter the amount of character health: ";
-            std::cin >> this->health;
-        } while (this->health < 1);
+            std::cin >> health;
+        } while (health < 1);
 
         do {
             std::cout << "Enter the amount of character armor: ";
-            std::cin >> this->armor;
-        } while (this->armor < 1);
+            std::cin >> armor;
+        } while (armor < 1);
 
         do {
             std::cout << "Enter the amount of character damage: ";
-            std::cin >> this->damage;
-        } while (this->damage < 1);
+            std::cin >> damage;
+        } while (damage < 1);
     }
 };
 
