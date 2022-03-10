@@ -33,12 +33,7 @@ void UserInput(std::string& input) {
 }
 
 void AddToQueue (const std::string& input, std::map<std::string, int>& queue) {
-    if (queue.find(input) == queue.end()) {
-        queue[input] = 1;
-    }
-    else {
-        queue[input] += 1;
-    }
+    ++queue[input];
 }
 
 void CallThePerson (std::map<std::string, int>& queue) {
