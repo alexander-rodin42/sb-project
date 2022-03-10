@@ -104,11 +104,11 @@ void FindByNumber (std::map<std::string, std::string>& phonebook, const std::str
 
 void FindByLastName (std::map<std::string, std::vector<std::string>>& lastNameList, const std::string& lastName) {
     if ((lastNameList.find(lastName) == lastNameList.end())) {
-        std::cout << "Subscribers with last name - " << lastName << " not found."  << std::endl;
+        std::cout << "Subscribers with last name " << lastName << " not found."  << std::endl;
     }
     else {
         std::cout << "Found " << lastNameList[lastName].size() << " subscribers with last name " << lastName << ":" << std::endl;
-        for (auto & i : lastNameList.find(lastName)->second) {
+        for (auto & i : lastNameList[lastName]) {
             std::cout << i << std::endl;
         }
     }
