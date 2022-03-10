@@ -25,7 +25,7 @@ void ConvertCommandToFormat (std::string& name) {
 
 void UserInput(std::string& input) {
     do {
-        std::cout << "Enter the last name to add to the queue: ";
+        std::cout << "Enter last name or command: ";
         std::cin >> input;
     } while (!CheckInput( input));
 
