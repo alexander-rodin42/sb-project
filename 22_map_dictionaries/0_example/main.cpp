@@ -11,7 +11,13 @@ int main() {
     firstMap.insert(std::pair<std::string, int> ("apple", 2));          //add
     firstMap.insert(std::make_pair<std::string, int> ("hello", 3));     //add 2
     firstMap.insert(std::make_pair("new", 4));                          //add 3 ??
+    firstMap["potato"] = 12;                                                            //add 4 !!
+
     std::cout << firstMap["new"] << std::endl;                                          //"4"
+
+    for (auto & it : firstMap) {
+        std::cout << it.first << " " << it.second << std::endl;
+    }
 
     //2
     firstMap.insert(std::pair<std::string, int> ("apple", 3));          // does not replace existing
