@@ -53,7 +53,7 @@ int main() {
     std::cout << "(5)-------------------------------" << std::endl;
 
 #if 0
-    std::string message = "Hello world!"
+    std::string message = "Hello world!";
     std::cout << message << std::endl;
 #endif
 
