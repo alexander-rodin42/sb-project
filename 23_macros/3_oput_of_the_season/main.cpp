@@ -6,7 +6,7 @@
 #define WINTER 3
 
 int main() {
-    int timeOfYear = SPRING
+    int timeOfYear = SPRING;
 
 #if timeOfYear == SPRING
     std::cout << "Spring" << std::endl;
