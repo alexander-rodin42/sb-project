@@ -5,22 +5,23 @@
 #define AUTUMN 2
 #define WINTER 3
 
-int main() {
-    int timeOfYear = SPRING;
+#define TIME_OF_YEAR SPRING
 
-#if timeOfYear == SPRING
+int main() {
+
+#if TIME_OF_YEAR == SPRING
     std::cout << "Spring" << std::endl;
 #endif
 
-#if timeOfYear == SUMMER
+#if TIME_OF_YEAR == SUMMER
     std::cout << "Summer" << std::endl;
 #endif
 
-#if timeOfYear == AUTUMN
+#if TIME_OF_YEAR == AUTUMN
     std::cout << "Autumn" << std::endl;
 #endif
 
-#if timeOfYear == WINTER
+#if TIME_OF_YEAR == WINTER
     std::cout << "Winter" << std::endl;
 #endif
     return 0;
