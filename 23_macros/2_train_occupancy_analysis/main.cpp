@@ -2,14 +2,13 @@
 
 #define WAGONS_NUMBER 10
 #define MAX_PASSENGERS 20
-#define REPEAT_TEN(x) x x x x x x x x x x
-#define FILL_THE_TRAIN(sum, x) ((sum) = (x) + (x) + (x) + (x) + (x) + (x) + (x) + (x) + (x) + (x))
+#define REPEAT(func, iterator) for (;iterator < WAGONS_NUMBER; func)
 
-int Input (int& input, int& wagonsNumber) {
+void Input (int& sum, int& input, int& wagonsNumber) {
     std::cout << "Enter the number of passengers for car No." << wagonsNumber + 1 << ": ";
     std::cin >> input;
+    sum += input;
     ++wagonsNumber;
-    return input;
 }
 
 void FindCrowdedWagon (const int& passengers, const int& max, int& wagonsNumber) {
@@ -29,14 +28,14 @@ void FindEmptySeatsWagon (const int& passengers, const int& max, int& wagonsNumb
 
 int main() {
     int wagons[WAGONS_NUMBER];
-    int currentCar = 0;
+    int iterator = 0;
     int sum = 0;
 
-    FILL_THE_TRAIN(sum, Input(wagons[currentCar], currentCar));
-    currentCar = 0;
-    REPEAT_TEN(FindCrowdedWagon(wagons[currentCar], MAX_PASSENGERS, currentCar);)
-    currentCar = 0;
-    REPEAT_TEN(FindEmptySeatsWagon(wagons[currentCar], MAX_PASSENGERS, currentCar);)
+    REPEAT(Input(sum, wagons[iterator], iterator), iterator);
+    iterator = 0;
+    REPEAT(FindCrowdedWagon(wagons[iterator], MAX_PASSENGERS, iterator), iterator);
+    iterator = 0;
+    REPEAT(FindEmptySeatsWagon(wagons[iterator], MAX_PASSENGERS, iterator), iterator);
 
     std::cout << "Total number of passengers in all carriages: " << sum << std::endl;
     return 0;
