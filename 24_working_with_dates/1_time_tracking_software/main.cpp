@@ -79,12 +79,8 @@ void Status (std::vector<Task>& taskList) {
                 local = std::localtime(&i.end);
                 std::cout << std::put_time(local, "%H:%M:%S") << " ";
 
-                std::time_t timezone = 0.0;
-                std::tm* localTimezone = std::localtime(&timezone);
                 auto elapseTime = (std::time_t)(i.elapseTime);
-                local = std::localtime(&elapseTime);
-
-                local->tm_hour -= localTimezone->tm_hour; // crutch?
+                local = std::gmtime(&elapseTime);
                 std::cout << std::put_time(local, "%H:%M:%S") << " ";
 
                 std::cout << i.taskName << std::endl;
