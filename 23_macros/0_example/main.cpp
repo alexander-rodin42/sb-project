@@ -11,6 +11,7 @@
 #define MAX(a, b) ((a > (b)) ? (a) : (b))
 
 #define COMBINE(first, second) first ## _ ## second
+#define CALL_FUNCTION(func) for (int i = 0; i < 10; ++i) { func(i, cars[i]); } //cycle for
 
 int main() {
     std::cout << "(1)-------------------------------" << std::endl;
