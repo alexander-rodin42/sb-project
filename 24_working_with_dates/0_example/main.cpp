@@ -50,9 +50,18 @@ int main() {
     std::cout << "Future - " << asctime(localFuture);
 
     // You don't need to do so:
-    std::cout << "(4.2)-Date-manipulation--" << std::endl;
-    localFuture->tm_sec += 12; // 50 seconds += 12 = runtime error!!!!!!
-    std::cout << "Future - " << asctime(localFuture);
+//    std::cout << "(4.2)-Date-manipulation--" << std::endl;
+//    localFuture->tm_sec += 12; // 50 seconds += 12 = runtime error!!!!!!
+//    std::cout << "Future - " << asctime(localFuture);
+
+    std::cout << "(5.1)--cpp-reference--" << std::endl;
+
+    std::time_t t3 = std::time(nullptr);
+    std::tm tm = *std::localtime(&t3);
+    std::cout.imbue(std::locale("ru_RU.utf8"));
+    std::cout << "ru_RU: " << std::put_time(&tm, "%c %Z") << '\n';
+    std::cout.imbue(std::locale("ja_JP.utf8"));
+    std::cout << "ja_JP: " << std::put_time(&tm, "%c %Z") << '\n';
 
     return 0;
 }
