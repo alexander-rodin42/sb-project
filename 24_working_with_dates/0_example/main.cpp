@@ -7,7 +7,6 @@ int main() {
     std::cout << std::time(nullptr) << std::endl;
 
     std::cout << "(1.2)--------------------" << std::endl;
-    // UTC
     std::time_t t = std::time(nullptr);
     std::tm* local = std::localtime(&t); // pointer
     std::cout << local->tm_hour << std::endl;      // hour
@@ -57,11 +56,16 @@ int main() {
     std::cout << "(5.1)--cpp-reference--" << std::endl;
 
     std::time_t t3 = std::time(nullptr);
-    std::tm tm = *std::localtime(&t3);
+    std::tm tm3 = *std::localtime(&t3);
     std::cout.imbue(std::locale("ru_RU.utf8"));
-    std::cout << "ru_RU: " << std::put_time(&tm, "%c %Z") << '\n';
+    std::cout << "ru_RU: " << std::put_time(&tm3, "%c %Z") << '\n';
     std::cout.imbue(std::locale("ja_JP.utf8"));
-    std::cout << "ja_JP: " << std::put_time(&tm, "%c %Z") << '\n';
+    std::cout << "ja_JP: " << std::put_time(&tm3, "%c %Z") << '\n';
+    // UTC
+    std::cout << "(5.2)--cpp-reference--" << std::endl;
+    std::time_t t4 = std::time(nullptr);
+    std::tm tm4 = *std::gmtime(&t4);
+    std::cout << std::asctime(&tm4) << std::endl;
 
     return 0;
 }
