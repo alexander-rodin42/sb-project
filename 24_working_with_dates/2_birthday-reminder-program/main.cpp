@@ -23,6 +23,11 @@
 #include <vector>
 #include <algorithm>
 
+struct Person {
+    std::string name{};
+    std::time_t birthday{};
+};
+
 bool CheckName (const std::string& name) {
     return std::all_of(name.begin(), name.end(), [](char i){return i >= 'A' && i <= 'Z' || i >= 'a' && i <= 'z';});
 }
@@ -38,7 +43,7 @@ void ConvertNameToFormat (std::string& name) {
     }
 }
 
-void Input (std::map<std::time_t, std::vector<std::string>>& list) {
+void Input (std::vector<std::map<int, std::vector<Person>>>& list) {
     std::string inputName;
 
     std::cout << "Enter \"end\" to complete the entry." << std::endl;
@@ -52,106 +57,114 @@ void Input (std::map<std::time_t, std::vector<std::string>>& list) {
         while (!CheckName( inputName));
 
         if (inputName != "end") {
-            std::cout << "Enter your friend's name: ";
+            std::cout << "Enter date of birth in the format (yyyy/mm/dd): ";
             std::cin >> std::get_time(local, "%Y/%m/%d");
             inputTime = std::mktime(local);
             ConvertNameToFormat( inputName);
-            list[inputTime].push_back(inputName);
+
+            Person tempPerson;
+            tempPerson.name = inputName;
+            tempPerson.birthday = inputTime;
+
+            list[local->tm_mon][local->tm_mday].push_back(tempPerson);
         }
     }
     while (inputName != "end");
 }
 
-void PrintNames (const std::vector<std::string>& names) {
-    for (int i = 0; i < names.size(); ++i) {
-        std::cout << i;
-        if (names.size() == 1 || i == names.size() - 1) {
-            std::cout << ". ";
-        }
-        else {
-            std::cout << ", ";
-        }
+void PrintNames (std::vector<Person>& names) {
+    for (auto & i : names) {
+        std::tm* local = localtime(&i.birthday);
+        std::cout << i.name << ", born " << std::put_time(local, "%Y.") << std::endl;
     }
     std::cout << std::endl;
 }
 
-void PrintNextBirthday (std::map<std::time_t, std::vector<std::string>>& list) {
+bool FindThisYear (const int currentDay, const int currentMonth, std::vector<std::map<int, std::vector<Person>>>& list) {
+    bool nextBirthdayFound = false;
+
+    for (int i = currentMonth; i < list.size(); ++i) {
+        if (!list[i].empty()) {
+            for (auto &iMap: list[i]) {
+                std::tm *local = localtime(&iMap.second[0].birthday);
+                if (!(i == currentMonth && iMap.first <= currentDay)) {
+                    std::cout << "Next birthday " << std::put_time(local, "%m/%d") << " is:" << std::endl;
+                    PrintNames(iMap.second);
+                    nextBirthdayFound = true;
+                    break;
+                }
+            }
+        }
+        if (nextBirthdayFound) {
+            break;
+        }
+    }
+
+        return nextBirthdayFound;
+}
+
+bool FindNextYear (const int currentDay, const int currentMonth, std::vector<std::map<int, std::vector<Person>>>& list) {
+    bool nextBirthdayFound = false;
+
+    for (int i = 0; i <= currentMonth; ++i) {
+        if (!list[i].empty()) {
+            for (auto &iMap: list[i]) {
+                std::tm *local = localtime(&iMap.second[0].birthday);
+                if (!(i == currentMonth && iMap.first >= currentDay)) {
+                    std::cout << "Next birthday next year " << std::put_time(local, "%m/%d") << " is:" << std::endl;
+                    PrintNames(iMap.second);
+                    nextBirthdayFound = true;
+                    break;
+                }
+            }
+        }
+        if (nextBirthdayFound) {
+            break;
+        }
+    }
+
+    return nextBirthdayFound;
+}
+
+void PrintNextBirthday (std::vector<std::map<int, std::vector<Person>>>& list) {
     std::time_t currentTime = std::time(nullptr);
     std::tm* currentLocal = std::localtime(&currentTime);
+    int currentMonth = currentLocal->tm_mon;
+    int currentDay = currentLocal->tm_mday;
 
-    std::map<std::time_t, std::vector<std::string>>::iterator searchedPosition;
-    std::time_t temp = 0;
-
-    for (auto & i : list) {
-        std::tm* local = std::localtime(&i.first);
-        if (local->tm_mon == currentLocal->tm_mon && local->tm_mday == currentLocal->tm_mday) {
-            std::cout << "Today is the birthday of ";
-            PrintNames( i.second);
+    if (!list[currentMonth].empty()) {
+        for (auto & i : list[currentMonth]) {
+            if (i.first == currentDay) {
+                std::cout << "Today is the birthday of:" << std::endl;
+                PrintNames( i.second);
+            }
         }
-        else if (local->tm_mon > currentLocal->tm_mon ||
-                (local->tm_mon == currentLocal->tm_mon && local->tm_mday > currentLocal->tm_mday)) {
+    }
 
+    if ( !FindThisYear(currentDay, currentMonth, list)) {
+        if ( !FindNextYear(currentDay, currentMonth, list)) {
+            std::cout << "Next birthday not found" << std::endl;
         }
+    }
+}
 
-        std::cout << std::put_time(local, "%m/%d") << ": ";
-
-        for (auto & j : i.second) {
-            std::cout << j  << " ";
+void PrintList (std::vector<std::map<int, std::vector<Person>>>& list) {
+        for (int i = 0; i < list.size(); ++i) {
+        std::cout << i + 1 << " month" << std::endl;
+        if (!list[i].empty()) {
+            for (auto & map : list[i]) {
+                std::cout << "(" << map.first << ") day" << std::endl;
+                PrintNames(map.second);
+            }
         }
-        std::cout << std::endl;
     }
 }
 
 int main() {
-    std::map<std::time_t, std::vector<std::string>> listOfBirthdays;
-
+    std::vector<std::map<int, std::vector<Person>>> listOfBirthdays (12);
     Input( listOfBirthdays);
-
-
-//    for (auto & i : listOfBirthdays) {
-//        std::tm* local = std::localtime(&i.first);
-//        std::cout << std::put_time(local, "%Y/%m/%d") << ": ";
-//        for (auto & j : i.second) {
-//            std::cout << j  << " ";
-//        }
-//        std::cout << std::endl;
-//    }
-
-//    std::string inputName;
-//    std::string inputDate;
-//
-//    std::cout << "Enter \"end\" to complete the entry." << std::endl;
-//    std::cout << "Enter your friend's name and date of birth in yyyy/mm/dd format." << std::endl;
-//    do {
-//        Input( inputName, inputDate);
-//
-//
-//
-//        std::cout << inputDate << " - " << inputName << std::endl;
-//    }
-//    while (inputName != "end");
-
-//    std::time_t time = std::time(nullptr);
-//    std::cout << "1 -> " << time << std::endl;
-//    std::tm* local = std::localtime(&time);
-//
-//    std::cout << "2 -> " << std::asctime(local) << std::endl;
-//    std::cout << "2 -> " << local->tm_sec << std::endl;
-//    std::cout << "2 -> " << local->tm_min << std::endl;
-//    std::cout << "2 -> " << local->tm_hour << std::endl;
-//    std::cout << "2 -> " << local->tm_mday << std::endl;
-//    std::cout << "2 -> " << local->tm_mon << std::endl;
-//    std::cout << "2 -> " << local->tm_year << std::endl;
-//
-//    std::cin >> std::get_time(local, "%H:%M");
-//    std::cout << "3 -> " << time << std::endl;
-//    std::cout << "3 -> " << std::asctime(local) << std::endl;
-//
-//    std::time_t time2 = std::mktime(local);
-//    std::cout << "4 -> " << time2 << std::endl;
-//
-//    std::tm* local2 = std::localtime(&time2);
-//    std::cout << "4 -> " << std::asctime(local2) << std::endl;
+    PrintNextBirthday( listOfBirthdays);
+    //PrintList( listOfBirthdays);
 
     return 0;
 }
