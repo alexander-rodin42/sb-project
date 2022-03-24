@@ -26,8 +26,13 @@ int main() {
     // #include <iomanip>  <-- to enter dates
     std::time_t t2 = std::time(nullptr);
     std::tm local2 = *std::localtime(&t2);
+    std::cout << t2 << std::endl;
     std::cin >> std::get_time(&local2, "%H:%M");
-    std::cout << std::asctime(&local2) << std::endl;
+    std::cout << std::asctime(&local2);
+
+    std::cout << t2 << std::endl;
+    t2 = std::mktime(&local2); //tm to time_t
+    std::cout << t2 << std::endl;
 
     std::cout << "(4.1)-Date-manipulation--" << std::endl;
     std::time_t start = std::time(nullptr);
@@ -69,3 +74,18 @@ int main() {
 
     return 0;
 }
+
+/*
+    В описании типа time_t указано, что хранит количество секунд с 00:00, Jan 1 1970 UTC, если вводить даты рождения до
+этого времени то выдает ошибку. Как с этим быть?
+    Если стандартными способами, можно использовать библиотеку std::chrono, только она будет полноценно работать
+используя стандарт C++20.
+    https://en.cppreference.com/w/cpp/chrono
+
+Ещё вариант использовать библиотеку date или библиотеку Boost.Date_Time
+    https://howardhinnant.github.io/date/date.html
+    https://www.boost.org/doc/libs/1_78_0/doc/html/date_time.html
+
+    Но если в рабочей программе вам необходимо будет сделать паузу в 1 секунду, то используйте
+std::this_thread::sleep_for(std::chrono::seconds(1));
+ */
