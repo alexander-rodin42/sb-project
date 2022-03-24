@@ -27,7 +27,7 @@ void FirstTimer () {
     std::cout << "Enter time in the format (mm:ss): ";
     std::cin >> std::get_time(local, "%M:%S");
 
-    timer = int(std::mktime(local));
+    timer = std::mktime(local);
     std::time_t lagTime = std::time(nullptr);
 
     while (timer >= 0) {
@@ -48,7 +48,7 @@ void SecondTimer () {
     std::cout << "Enter time in the format (mm:ss): ";
     std::cin >> std::get_time(local, "%M:%S");
 
-    timer = int(std::mktime(local));
+    timer = std::mktime(local);
     std::time_t currentTime = std::time(nullptr);
     std::time_t lagTime = currentTime;
     std::time_t stopTime = currentTime + timer;
