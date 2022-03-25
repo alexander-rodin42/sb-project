@@ -3,5 +3,6 @@ project(0_example VERSION 1.0)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(0_example src/main.cpp include/my-math.h src/my-math.cpp)
-target_include_directories(0_example PUBLIC include)
+set(MY_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
+
+add_subdirectory(src)

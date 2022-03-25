@@ -8,3 +8,13 @@ int main() {
     std::cin >> temp;
     return 0;
 }
+
+/*
+CMakeLists:
+
+add_executable(0_example src/main.cpp include/my-math.h src/my-math.cpp)
+target_include_directories(0_example PUBLIC include)
+
+root folder:
+${CMAKE_SOURCE_DIR}
+*/
