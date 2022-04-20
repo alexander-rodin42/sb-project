@@ -10,7 +10,9 @@ class Forest {
 public:
     explicit Forest(const int& inTreeCount);
     void placeTheElves();
-    void print();
+    void printTrees();
+    void printList();
+    void findElf(std::string& name);
 
 private:
     int treeCount = 5;

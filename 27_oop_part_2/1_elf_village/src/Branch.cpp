@@ -3,7 +3,8 @@
 #include "Branch.h"
 #include "Verification.h"
 
-Branch::Branch(Branch* inParent, const int& inType) : parent(inParent), branchType(inType) {
+Branch::Branch(const int& inNumber, Branch* inParent, const int& inType)
+        : number(inNumber), parent(inParent), branchType(inType) {
     assert(inType > 0 && inType <= 3);
 
     if (inType == TREE) {
@@ -16,8 +17,7 @@ Branch::Branch(Branch* inParent, const int& inType) : parent(inParent), branchTy
     if (inType != MIDDLE_BRANCH) {
         childBranch = new Branch*[childBranchCount];
         for (int i = 0; i < childBranchCount; ++i) {
-            childBranch[i] = new Branch(this, inType + 1);
-            childBranch[i]->number = i + 1;
+            childBranch[i] = new Branch(i + 1,this, inType + 1);
         }
     }
 }
@@ -65,20 +65,6 @@ void Branch::print() {
     }
 }
 
-void Branch::printAddress(Branch *branch) {
-    if (branch->branchType == MIDDLE_BRANCH) {
-        branch->printAddress(branch->parent);
-        std::cout << "middle branch " << branch->number << " ";
-    }
-    else if (branch->branchType == BIG_BRANCH) {
-        branch->printAddress(branch->parent);
-        std::cout << "big branch " << branch->number << " ";
-    }
-    else if (branch->branchType == TREE) {
-        std::cout << "Tree " << branch->number << " ";
-    }
-}
-
 void Branch::doCensus(std::map<std::string, std::vector<Branch *>>& list) {
     if (elfName != "None") {
         list[elfName].emplace_back(this);
@@ -93,7 +79,46 @@ void Branch::doCensus(std::map<std::string, std::vector<Branch *>>& list) {
     }
 }
 
+int Branch::getNumberElvesOnChildBranches() {
+    int result = 0;
 
+    if (elfName != "None") {
+        ++result;
+    }
+
+    if (branchType != MIDDLE_BRANCH) {
+        for (int i = 0; i < childBranchCount; ++i) {
+            result += childBranch[i]->getNumberElvesOnChildBranches();
+        }
+    }
+    return result;
+}
+
+int Branch::getNumberOfNeighbors() {
+    if (branchType == MIDDLE_BRANCH) {
+        return parent->getNumberElvesOnChildBranches() - 1;
+    }
+    else if (branchType == BIG_BRANCH) {
+        return getNumberElvesOnChildBranches() - 1;
+    }
+    else {
+        return 0;
+    }
+}
+
+void Branch::printAddress(Branch *branch) {
+    if (branch->branchType == MIDDLE_BRANCH) {
+        branch->printAddress(branch->parent);
+        std::cout << "middle branch " << branch->number << " ";
+    }
+    else if (branch->branchType == BIG_BRANCH) {
+        branch->printAddress(branch->parent);
+        std::cout << "big branch " << branch->number << " ";
+    }
+    else if (branch->branchType == TREE) {
+        std::cout << "tree " << branch->number << " ";
+    }
+}
 
 
 

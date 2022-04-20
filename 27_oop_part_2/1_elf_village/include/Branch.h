@@ -12,12 +12,13 @@ enum branchTypes {
 
 class Branch {
 public:
-    explicit Branch(Branch* inParent = nullptr, const int& inType = TREE);
+    explicit Branch(const int& inNumber, Branch* inParent = nullptr, const int& inType = TREE);
     void placeTheElves();
     void print();
-    static void printAddress(Branch* branch);
-
     void doCensus(std::map<std::string, std::vector<Branch*>>& list);
+    int getNumberOfNeighbors();
+
+    static void printAddress(Branch* branch);
 
 private:
     int number = 0;
@@ -26,5 +27,7 @@ private:
     Branch* parent = nullptr;
     Branch** childBranch = nullptr;
     std::string elfName = "None";
+
+    int getNumberElvesOnChildBranches();
 };
 
