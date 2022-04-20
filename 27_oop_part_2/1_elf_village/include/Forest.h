@@ -10,7 +10,6 @@ class Forest {
 public:
     explicit Forest(const int& inTreeCount);
     void placeTheElves();
-    std::map<std::string, std::vector<Branch*>>& getList();
     void print();
 
 private:

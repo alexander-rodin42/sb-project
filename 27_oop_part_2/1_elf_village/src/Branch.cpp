@@ -68,16 +68,31 @@ void Branch::print() {
 void Branch::printAddress(Branch *branch) {
     if (branch->branchType == MIDDLE_BRANCH) {
         branch->printAddress(branch->parent);
-        std::cout << "middle branch " << branch->number << ", ";
+        std::cout << "middle branch " << branch->number << " ";
     }
     else if (branch->branchType == BIG_BRANCH) {
         branch->printAddress(branch->parent);
-        std::cout << "big branch " << branch->number << ", ";
+        std::cout << "big branch " << branch->number << " ";
     }
     else if (branch->branchType == TREE) {
-        std::cout << "Tree " << branch->number << ", ";
+        std::cout << "Tree " << branch->number << " ";
     }
 }
+
+void Branch::doCensus(std::map<std::string, std::vector<Branch *>>& list) {
+    if (elfName != "None") {
+        list[elfName].emplace_back(this);
+    }
+
+    if (branchType != MIDDLE_BRANCH) {
+        assert(childBranch != nullptr);
+
+        for (int i = 0; i < childBranchCount; ++i) {
+            childBranch[i]->doCensus( list);
+        }
+    }
+}
+
 
 
 

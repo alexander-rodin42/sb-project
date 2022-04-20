@@ -17,6 +17,8 @@ public:
     void print();
     static void printAddress(Branch* branch);
 
+    void doCensus(std::map<std::string, std::vector<Branch*>>& list);
+
 private:
     int number = 0;
     int branchType = TREE;

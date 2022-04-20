@@ -12,13 +12,13 @@ Forest::Forest(const int& inTreeCount) : treeCount(inTreeCount) {
     }
 }
 
-
-
 void Forest::placeTheElves() {
     for (int i = 0; i < treeCount; ++i) {
         std::cout << "Tree No." << i + 1 << std::endl;
         forest[i]->placeTheElves();
     }
+
+    this->fillList();
 }
 
 void Forest::print() {
@@ -28,19 +28,18 @@ void Forest::print() {
     }
 
     for (auto & i : list) {
-        std::cout << i.first << std::endl;
+        std::cout << i.first << ":" << std::endl;
+        for (auto & j : i.second) {
+            Branch::printAddress(j);
+            std::cout << std::endl;
+        }
     }
 }
-
-
-
 
 void Forest::fillList() {
     for (int i = 0; i < treeCount; ++i) {
-
+        forest[i]->doCensus(list);
     }
 }
 
-std::map<std::string, std::vector<Branch *>>& Forest::getList() {
-    return list;
-}
+

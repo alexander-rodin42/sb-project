@@ -2,18 +2,27 @@
 #include <ctime>
 
 #include "Branch.h"
+#include "Forest.h"
 
 int main() {
     std::srand(std::time(nullptr));
 
-    auto* branch = new Branch();
+//    auto* branch = new Branch();
+//
+//    branch->placeTheElves();
+//    branch->print();
+//
+//    std::cout << "_____________" << std::endl;
+//
+//    delete branch;
 
-    branch->placeTheElves();
-    branch->print();
+    auto* forest = new Forest(2);
 
-    std::cout << "_____________" << std::endl;
+    forest->placeTheElves();
 
-    delete branch;
+    forest->print();
+
+    delete forest;
 
     return 0;
 }
