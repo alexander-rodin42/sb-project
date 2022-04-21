@@ -8,7 +8,7 @@
 
 void InputCommand (std::string& command) {
     do {
-        std::cout << "> Enter the command: ";
+        std::cout << "> Enter command: ";
         std::cin >> command;
     }
     while (!(command == "circle"
