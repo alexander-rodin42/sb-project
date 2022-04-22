@@ -14,9 +14,14 @@ double EquilateralTriangle::getArea() const {
     return edgeLength * edgeLength * sqrt(3) / 4;
 }
 
-void EquilateralTriangle::fitInRectangle() const {
-    std::cout << "A triangle can be described by a rectangle with sides: " << edgeLength
-              << " end " << sqrt(pow(edgeLength, 2) - pow(edgeLength / 2, 2)) << std::endl;
+Rectangle* EquilateralTriangle::fitInRectangle() {
+    auto* result = new Rectangle;
+
+    result->setCenter(this->getCenter());
+    result->setFirstEdgeLength(edgeLength);
+    result->setSecondEdgeLength(sqrt(pow(edgeLength, 2) - pow(edgeLength / 2, 2)));
+
+    return result;
 }
 
 void EquilateralTriangle::setParameters() {

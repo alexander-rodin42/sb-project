@@ -2,12 +2,16 @@
 
 #include "GeometricFigure.h"
 
-class Rectangle : GeometricFigure{
+class Rectangle : public GeometricFigure{
 public:
     void setEdgeLength();
     double getArea() const;
-    void fitInRectangle() const;
+    Rectangle* fitInRectangle();
     void setParameters();
+    void setFirstEdgeLength(const double& value);
+    void setSecondEdgeLength(const double& value);
+    void print();
+
 private:
     double firstEdgeLength = 0;
     double secondEdgeLength = 0;

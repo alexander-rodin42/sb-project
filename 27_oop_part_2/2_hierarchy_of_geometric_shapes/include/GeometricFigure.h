@@ -10,12 +10,16 @@ enum color {
 struct Point {
     double x = 0;
     double y = 0;
+
+    void print() const;
 };
 
 class GeometricFigure {
 public:
     void setCenterCoordinates();
     void setColor();
+    Point getCenter();
+    void setCenter(const Point& inCenter);
 
 private:
     Point center{};

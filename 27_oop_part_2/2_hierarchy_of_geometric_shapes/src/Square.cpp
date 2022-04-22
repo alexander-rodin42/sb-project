@@ -14,8 +14,14 @@ double Square::getArea() const {
     return edgeLength * edgeLength;
 }
 
-void Square::fitInRectangle() const {
-    std::cout << "A square can be described by a rectangle with a side: " << edgeLength << std::endl;
+Rectangle *Square::fitInRectangle() {
+    auto* result = new Rectangle;
+
+    result->setCenter(this->getCenter());
+    result->setFirstEdgeLength(edgeLength);
+    result->setSecondEdgeLength(edgeLength);
+
+    return result;
 }
 
 void Square::setParameters() {
@@ -23,4 +29,6 @@ void Square::setParameters() {
     this->setCenterCoordinates();
     this->setEdgeLength();
 }
+
+
 

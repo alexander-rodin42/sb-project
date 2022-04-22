@@ -19,9 +19,14 @@ double Rectangle::getArea() const {
     return firstEdgeLength * secondEdgeLength;
 }
 
-void Rectangle::fitInRectangle() const {
-    std::cout << "A rectangle can be described by a rectangle with sides: " << firstEdgeLength
-              << " end " << secondEdgeLength << std::endl;
+Rectangle *Rectangle::fitInRectangle() {
+    auto* result = new Rectangle;
+
+    result->setCenter(this->getCenter());
+    result->setFirstEdgeLength(firstEdgeLength);
+    result->setSecondEdgeLength(secondEdgeLength);
+
+    return result;
 }
 
 void Rectangle::setParameters() {
@@ -29,3 +34,22 @@ void Rectangle::setParameters() {
     this->setCenterCoordinates();
     this->setEdgeLength();
 }
+
+void Rectangle::setFirstEdgeLength(const double& value) {
+    firstEdgeLength = value;
+}
+
+void Rectangle::setSecondEdgeLength(const double& value) {
+    secondEdgeLength = value;
+}
+
+void Rectangle::print() {
+    std::cout << "Rectangle options." << std::endl;
+    std::cout << "Center coordinates ";
+    getCenter().print();
+
+    std::cout << ", first edge length: " << firstEdgeLength << ", second edge length: " << secondEdgeLength << std::endl;
+}
+
+
+

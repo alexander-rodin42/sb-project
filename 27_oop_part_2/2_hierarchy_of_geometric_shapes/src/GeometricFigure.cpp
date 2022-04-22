@@ -30,4 +30,15 @@ void GeometricFigure::setColor() {
     }
 }
 
+Point GeometricFigure::getCenter() {
+    return center;
+}
 
+void GeometricFigure::setCenter(const Point& inCenter) {
+    center = inCenter;
+}
+
+
+void Point::print() const {
+    std::cout << x << ", " << y;
+}

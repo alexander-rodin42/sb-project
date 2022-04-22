@@ -14,8 +14,14 @@ double Circle::getArea() const {
     return atan(1) * 4 * pow(radius, 2);
 }
 
-void Circle::fitInRectangle() const {
-    std::cout << "A circle can be described by a rectangle with a side: " << radius + radius << std::endl;
+Rectangle* Circle::fitInRectangle() {
+    auto* result = new Rectangle;
+
+    result->setCenter(this->getCenter());
+    result->setFirstEdgeLength(radius);
+    result->setSecondEdgeLength(radius);
+
+    return result;
 }
 
 void Circle::setParameters() {

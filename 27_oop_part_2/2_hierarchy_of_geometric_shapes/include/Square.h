@@ -1,12 +1,13 @@
-#pragma one
+#pragma once
 
 #include "GeometricFigure.h"
+#include "Rectangle.h"
 
-class Square : GeometricFigure {
+class Square : public GeometricFigure {
 public:
     void setEdgeLength();
     double getArea() const;
-    void fitInRectangle() const;
+    Rectangle* fitInRectangle();
     void setParameters();
 private:
     double edgeLength = 0;
