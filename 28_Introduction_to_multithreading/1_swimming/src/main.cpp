@@ -1,11 +1,12 @@
 #include <iostream>
 #include <map>
+#include <vector>
 #include <thread>
 #include <mutex>
 
 #include "Swimmer.h"
 
-std::map<double, Swimmer*> tableResults;
+std::map<double, std::vector<Swimmer*>> tableResults;
 std::mutex table_results_access;
 std::mutex print_access;
 
@@ -31,7 +32,7 @@ void swim(Swimmer* swimmer) {
     } while (distance < 100);
 
     table_results_access.lock();
-    tableResults[timeInSeconds] = swimmer;
+    tableResults[timeInSeconds].push_back(swimmer);
     table_results_access.unlock();
 
     swimmer->finish();
@@ -49,10 +50,15 @@ bool check_swim_is_over (const int& trackCount, Swimmer** tracks) {
 int main() {
     const int trackCount = 6;
     auto* swimmers = new Swimmer*[trackCount];
+    double minSpeed = 100;
 
     for (int i = 0; i < trackCount; ++i) {
         std::cout << "Track #" << i + 1 << std::endl;
         swimmers[i] = new Swimmer();
+
+        if (swimmers[i]->getSpeed() < minSpeed) {
+            minSpeed = swimmers[i]->getSpeed();
+        }
     }
 
     for (int i = 0; i < trackCount; ++i) {
@@ -60,15 +66,24 @@ int main() {
         start.detach();
     }
 
-    while ( !check_swim_is_over(trackCount, swimmers)) {}
+    do {
+        std::this_thread::sleep_for(std::chrono::seconds((int)(100 / minSpeed + 2)));
+    } while ( !check_swim_is_over(trackCount, swimmers));
 
     std::cout << "Swim results:" << std::endl;
     table_results_access.lock();
     for (auto & i : tableResults) {
-        std::cout << i.second->getName() << " - " << i.first << " seconds."  << std::endl;
+        for (auto & j : i.second) {
+            std::cout << j->getName() << " - " << i.first << " seconds." << std::endl;
+        }
     }
     table_results_access.unlock();
 
+    for (int i = 0; i < trackCount; ++i) {
+        delete swimmers[i];
+    }
+
     delete[] swimmers;
+
     return 0;
 }

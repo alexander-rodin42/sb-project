@@ -60,7 +60,14 @@ int main() {
         start.detach();
     }
 
+    do {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
     while (!CheckTrainArrivals(trains));
+
+    for (int i = 0; i < trainCount; ++i) {
+        delete trains[i];
+    }
 
     delete[] trains;
     return 0;
