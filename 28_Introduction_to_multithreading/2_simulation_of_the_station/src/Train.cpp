@@ -18,12 +18,4 @@ int Train::getTravelTime() const {
     return travelTime;
 }
 
-bool Train::getArrived() const {
-    return arrived;
-}
-
-void Train::setArrived() {
-    arrived = true;
-}
-
 

@@ -24,11 +24,3 @@ double Swimmer::getSpeed() const {
     return speed;
 }
 
-bool Swimmer::checkFinish() const {
-    return finished;
-}
-
-void Swimmer::finish() {
-    finished = true;
-}
-

@@ -34,23 +34,14 @@ void swim(Swimmer* swimmer) {
     table_results_access.lock();
     tableResults[timeInSeconds].push_back(swimmer);
     table_results_access.unlock();
-
-    swimmer->finish();
-}
-
-bool check_swim_is_over (const int& trackCount, Swimmer** tracks) {
-    for (int i = 0; i < trackCount; ++i) {
-        if (!tracks[i]->checkFinish()) {
-            return false;
-        }
-    }
-    return true;
 }
 
 int main() {
     const int trackCount = 6;
     auto* swimmers = new Swimmer*[trackCount];
     double minSpeed = 100;
+    std::vector<std::thread*> started;
+    std::thread* start;
 
     for (int i = 0; i < trackCount; ++i) {
         std::cout << "Track #" << i + 1 << std::endl;
@@ -62,13 +53,14 @@ int main() {
     }
 
     for (int i = 0; i < trackCount; ++i) {
-        std::thread start(swim, swimmers[i]);
-        start.detach();
+        start = new std::thread(swim, swimmers[i]);
+        started.push_back(start);
     }
 
-    do {
-        std::this_thread::sleep_for(std::chrono::seconds((int)(100 / minSpeed + 2)));
-    } while ( !check_swim_is_over(trackCount, swimmers));
+    for (int i = 0; i < trackCount; ++i) {
+        started[i]->join();
+        delete started[i];
+    }
 
     std::cout << "Swim results:" << std::endl;
     table_results_access.lock();

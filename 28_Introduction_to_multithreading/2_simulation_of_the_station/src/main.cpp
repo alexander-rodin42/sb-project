@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include <thread>
 #include <mutex>
 
@@ -34,36 +35,28 @@ void train_departure(Train* train) {
     while (command != "depart");
     print(train, "leaves from the station.");
 
-    train->setArrived();
     stationBusy = false;
     station_access.unlock();
 }
 
-bool CheckTrainArrivals (Train** trains) {
-    for (int i = 0; i < trainCount; ++i) {
-        if (!trains[i]->getArrived()) {
-            return false;
-        }
-    }
-    return true;
-}
-
 int main() {
     auto* trains = new Train*[trainCount];
+    std::vector<std::thread*> started;
+    std::thread* start;
 
     for (int i = 0; i < trainCount; ++i) {
         trains[i] = new Train(i + 1);
     }
 
     for (int i = 0; i < trainCount; ++i) {
-        std::thread start(train_departure, trains[i]);
-        start.detach();
+        start = new std::thread(train_departure, trains[i]);
+        started.push_back(start);
     }
 
-    do {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+    for (int i = 0; i < trainCount; ++i) {
+        started[i]->join();
+        delete started[i];
     }
-    while (!CheckTrainArrivals(trains));
 
     for (int i = 0; i < trainCount; ++i) {
         delete trains[i];
