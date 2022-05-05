@@ -100,7 +100,7 @@ void cook() {
 
             orders_access.lock();
             print("(>) " + dish_to_string(first->second) + " is ready!" + " (#" + std::to_string(first->first) +
-                  ", " + std::to_string(cookingTime) + ")");
+                  ", " + std::to_string(cookingTime) + " sec.)");
 
             ready_orders_access.lock();
             readyOrders[first->first] = first->second;
@@ -131,7 +131,9 @@ void delivery_orders() {
             } while (!readyOrders.empty());
             ready_orders_access.unlock();
 
-            std::this_thread::sleep_for(std::chrono::seconds(30));
+            if (!check_delivered_orders_max()) {
+                std::this_thread::sleep_for(std::chrono::seconds(30));
+            }
         }
         else {
             print("The courier is waiting for ready orders.");
@@ -142,11 +144,12 @@ void delivery_orders() {
 
 int main() {
     std::thread order (start_orders);
-    std::thread kitchen (cook);
-    std::thread delivery (delivery_orders);
+    order.detach();
 
-    order.join();
-    kitchen.join();
+    std::thread kitchen (cook);
+    kitchen.detach();
+
+    std::thread delivery (delivery_orders);
     delivery.join();
 
     return 0;
