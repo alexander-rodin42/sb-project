@@ -19,7 +19,7 @@ SharedPtrToy::SharedPtrToy(const SharedPtrToy &other) {
     *referenceCount += 1;
 }
 
-SharedPtrToy &SharedPtrToy::operator=(const SharedPtrToy &other) {
+SharedPtrToy& SharedPtrToy::operator=(const SharedPtrToy &other) {
     if (this == &other) {
         return *this;
     }
