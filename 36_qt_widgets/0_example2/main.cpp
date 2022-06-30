@@ -1,13 +1,11 @@
 #include <iostream>
 
-#include <QPaintEvent>
 #include <QApplication>
+#include <QPaintEvent>
 #include <QPushButton>
 #include <QPixmap>
 #include <QPainter>
 #include <QTimer>
-
-//does not work
 
 class ImageButton : public QPushButton
 {
@@ -26,7 +24,7 @@ private:
     QPixmap mCurrentButtonPixmap;
     QPixmap mButtonUpPixmap;
     QPixmap mButtonDownPixmap;
-    bool isDown = false;
+    //bool isDown = false;
 };
 
 ImageButton::ImageButton(QWidget *parent)
@@ -85,3 +83,5 @@ int main(int argc, char **argv)
 
     return app.exec();
 }
+
+#include "main.moc"
