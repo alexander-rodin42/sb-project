@@ -8,10 +8,11 @@ int main(int argc, char *argv[]) {
     CalculatorMainWindow window(nullptr);
     Ui::MainWindow calculator;
     calculator.setupUi(&window);
+
     window.expressionLineEdit = calculator.expressionLineEdit;
     window.mainLineEdit = calculator.mainLineEdit;
-
     window.resize(480, 640);
     window.show();
+
     return QApplication::exec();
 }

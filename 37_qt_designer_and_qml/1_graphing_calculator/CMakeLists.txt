@@ -15,7 +15,8 @@ find_package(Qt5 COMPONENTS
 
 add_executable(1_graphing_calculator main.cpp
         calculator.ui
-        CalculatorMainWindow.h)
+        CalculatorMainWindow.cpp CalculatorMainWindow.h)
+
 target_link_libraries(1_graphing_calculator
         Qt5::Core
         Qt5::Gui
