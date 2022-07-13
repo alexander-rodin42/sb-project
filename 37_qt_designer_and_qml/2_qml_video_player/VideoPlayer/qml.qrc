@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>MyLayoutBorder.qml</file>
+        <file>MySlider.qml</file>
+        <file>MyLoRow.qml</file>
+        <file>MyButton.qml</file>
+    </qresource>
+</RCC>
