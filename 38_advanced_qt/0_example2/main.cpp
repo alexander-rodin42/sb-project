@@ -62,6 +62,6 @@ int main(int argc, char *argv[]) {
         finish.waitForFinished();
     }
 
-    std::cout << "Clack time: " << timer.elapsed() << " mseconds." << std::endl;
+    std::cout << "Execution time: " << timer.elapsed() << " mseconds." << std::endl;
     return app.exec();
 }
