@@ -12,7 +12,7 @@ class ImageButton : public QPushButton {
     Q_OBJECT
 public:
     ImageButton() = default;
-    ImageButton(QWidget *parent);
+    ImageButton(QWidget *parent, const QString& folderPath = "C:\\Users\\");
     void paintEvent(QPaintEvent *event) override;
     QSize sizeHint() const override;
     QSize minimumSizeHint() const override;
