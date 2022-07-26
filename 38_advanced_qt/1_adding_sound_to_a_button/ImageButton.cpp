@@ -17,6 +17,8 @@ ImageButton::ImageButton(QWidget *parent) {
     mButtonDownPixmap = QPixmap("C:\\Users\\Alexander\\Desktop\\sb-project\\38_advanced_qt\\1_adding_sound_to_a_button\\button_down.png");
     mCurrentButtonPixmap = mButtonUpPixmap;
     setGeometry(mCurrentButtonPixmap.rect());
+    buttonSound.setMedia(QUrl::fromLocalFile("C:\\Users\\Alexander\\Desktop\\sb-project\\38_advanced_qt\\1_adding_sound_to_a_button\\button_sound.mp3"));
+
     connect(this, &QPushButton::clicked, this, &ImageButton::setDown);
 }
 
@@ -38,13 +40,15 @@ void ImageButton::keyPressEvent(QKeyEvent *event) {
 }
 
 void ImageButton::setUp() {
+    buttonSound.stop();
+    buttonSound.play();
+
     mCurrentButtonPixmap = mButtonUpPixmap;
     update();
 }
 
 void ImageButton::setDown() {
     mCurrentButtonPixmap = mButtonDownPixmap;
-
     update();
-    QTimer::singleShot(500, this, &ImageButton::setUp);
+    QTimer::singleShot(100, this, &ImageButton::setUp);
 }

@@ -6,6 +6,7 @@
 
 #include <QPushButton>
 #include <QPixmap>
+#include <QMediaPlayer>
 
 class ImageButton : public QPushButton {
     Q_OBJECT
@@ -25,6 +26,7 @@ private:
     QPixmap mCurrentButtonPixmap;
     QPixmap mButtonUpPixmap;
     QPixmap mButtonDownPixmap;
+    QMediaPlayer buttonSound;
 };
 
 

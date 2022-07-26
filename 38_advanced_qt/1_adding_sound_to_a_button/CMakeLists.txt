@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(test)
+project(1_adding_sound_to_a_button)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_AUTOMOC ON)
@@ -16,9 +16,9 @@ find_package(Qt5 COMPONENTS
         Multimedia
         MultimediaWidgets)
 
-add_executable(test main.cpp
+add_executable(1_adding_sound_to_a_button main.cpp
         ImageButton.cpp ImageButton.h)
-target_link_libraries(test
+target_link_libraries(1_adding_sound_to_a_button
         Qt5::Core
         Qt5::Gui
         Qt5::Widgets
