@@ -32,8 +32,6 @@ QImage blurImage(QImage source, const int& blurRadius) {
     return result;
 }
 
-
-
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     QWidget window(nullptr);
@@ -46,12 +44,16 @@ int main(int argc, char *argv[]) {
     vBox.addWidget(label);
     vBox.addWidget(slider);
     vBox.addWidget(openFileButton);
+
     //
+    label->setAlignment(Qt::AlignTop | Qt::AlignCenter);
+    //label->setScaledContents(true);
     label->setMinimumSize(800, 640);
     QSizePolicy sizePolicyLabel(QSizePolicy::Expanding, QSizePolicy::Expanding);
     sizePolicyLabel.setHorizontalStretch(1);
     sizePolicyLabel.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
     label->setSizePolicy(sizePolicyLabel);
+
     //
     slider->setMinimum(0);
     slider->setMaximum(10);
@@ -60,34 +62,36 @@ int main(int argc, char *argv[]) {
     sizePolicySlider.setHorizontalStretch(1);
     sizePolicySlider.setHeightForWidth(slider->sizePolicy().hasHeightForWidth());
     slider->setSizePolicy(sizePolicySlider);
+
     //
     QSizePolicy sizePolicyOpenFileButton(QSizePolicy::Expanding, QSizePolicy::Fixed);
     sizePolicyOpenFileButton.setHorizontalStretch(1);
     sizePolicyOpenFileButton.setHeightForWidth(openFileButton->sizePolicy().hasHeightForWidth());
     openFileButton->setSizePolicy(sizePolicyOpenFileButton);
+
     //
-    QString filePath;
     QImage sourceImage;
 
-    QObject::connect(openFileButton, &QPushButton::clicked, [&filePath, &sourceImage, label](){
-        filePath = QFileDialog::getOpenFileName(nullptr,
-                                                "Open file",
-                                                "C:\\Users\\",
-                                                "image files (* bmp, * jpg, * jpeg, * png)");
-
-        sourceImage = QImage(filePath);
+    QObject::connect(openFileButton, &QPushButton::clicked, [&sourceImage, label](){
+        sourceImage = QImage(QFileDialog::getOpenFileName(nullptr,
+                                                          "Open file",
+                                                          "C:\\Users\\",
+                                                          "image files (* bmp, * jpg, * jpeg, * png)"));
 
         label->setPixmap(QPixmap::fromImage(sourceImage).scaled(
-                                    label->width(),
-                                    label->height(), Qt::KeepAspectRatio));
+                label->width(),
+                label->height(), Qt::KeepAspectRatio));
     });
+
     //
     QObject::connect(slider, &QSlider::valueChanged, [&sourceImage, slider, label](int newValue){
         label->setPixmap(QPixmap::fromImage(blurImage(sourceImage, newValue)).scaled(
-                                    label->width(),
-                                    label->height(), Qt::KeepAspectRatio));
+                label->width(),
+                label->height(), Qt::KeepAspectRatio));
     });
 
+    //
+    window.setWindowTitle("Image editor");
     window.show();
     return QApplication::exec();
 }
