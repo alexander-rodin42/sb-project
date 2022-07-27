@@ -45,8 +45,8 @@ int main(int argc, char *argv[]) {
     QObject::connect(openFileButton, &QPushButton::clicked, [&filePath, player, &isPlaying](){
         filePath = QFileDialog::getOpenFileName(nullptr,
                                          "Open file",
-                                            "C:\\Users\\",
-                                           "media files (* mp3, * mp4)");
+                                         "C:\\Users\\",
+                                         "media files (* mp3, * mp4)");
 
         player->stop();
         isPlaying = false;
