@@ -8,6 +8,12 @@
 #include "CustomExceptions.h"
 #include "InvertedIndex.h"
 
+//#include "gtest/gtest.h"
+//
+//TEST(sample_test_case, sample_test) {
+//    EXPECT_EQ(1,1);
+//}
+
 void printProgramName(nlohmann::json& config) {
     std::cout << "Started execution ";
 
