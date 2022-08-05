@@ -32,7 +32,7 @@ void first_ptr() {
 }
 
 SharedPtrToy make_shared_toy(const std::string name) {
-    return SharedPtrToy("Bone");
+    return SharedPtrToy(name);
 }
 
 SharedPtrToy make_shared_toy(const SharedPtrToy& toy) {
