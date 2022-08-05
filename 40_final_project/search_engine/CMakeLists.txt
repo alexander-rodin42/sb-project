@@ -5,7 +5,20 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 
-add_subdirectory(nlohmann_json)
+include(FetchContent)
+
+FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.1/json.tar.xz)
+FetchContent_MakeAvailable(json)
+
+#include(FetchContent)
+#FetchContent_Declare(
+#        googletest
+#        GIT_REPOSITORY https://github.com/google/googletest.git
+#        GIT_TAG release-1.12.1
+#)
+## For Windows: Prevent overriding the parent project's compiler/linker settings
+#set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+#FetchContent_MakeAvailable(googletest)
 
 add_executable(search_engine src/main.cpp
         src/ConverterJSON.cpp include/ConverterJSON.h

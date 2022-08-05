@@ -6,6 +6,7 @@
 
 #include "ConverterJSON.h"
 #include "CustomExceptions.h"
+#include "InvertedIndex.h"
 
 void printProgramName(nlohmann::json& config) {
     std::cout << "Started execution ";
@@ -80,20 +81,19 @@ bool isReadyToStart() {
 
 int main() {
     if (isReadyToStart()) {
-        ConverterJSON converterJson;
-
         //
-        std::vector<std::string> textDocuments = converterJson.GetTextDocuments();
+        std::vector<std::string> textDocuments = ConverterJSON::GetTextDocuments();
         for (int i = 0; i < textDocuments.size(); ++i) {
             std::cout << i + 1 << ": " << textDocuments[i] << std::endl;
         }
         //
-        std::vector<std::string> responses = converterJson.GetRequests();
+        std::vector<std::string> responses = ConverterJSON::GetRequests();
         for (int i = 0; i < responses.size(); ++i) {
             std::cout << i + 1 << ": " << responses[i] << std::endl;
         }
         //
-        std::cout << "Responses limit: " << converterJson.GetResponsesLimit() << std::endl;
+        std::cout << "Responses limit: " << ConverterJSON::GetResponsesLimit() << std::endl;
     }
+
     return 0;
 }

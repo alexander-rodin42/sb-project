@@ -3,9 +3,8 @@
 //
 
 #include <iostream>
-#include <exception>
-#include <fstream>
 #include <string>
+#include <fstream>
 #include <sstream>
 #include <vector>
 
@@ -59,14 +58,12 @@ int ConverterJSON::GetResponsesLimit() {
     inFile >> inConfig;
     inFile.close();
 
-//    if (inConfig["config"].contains("max_responses")) {
-//        return inConfig["config"]["max_responses"];
-//    }
-//    else {
-//        return 5;
-//    }
-
-    return inConfig["config"].contains("max_responses") ? (int)inConfig["config"]["max_responses"] : 5;
+    if (inConfig["config"].contains("max_responses")) {
+        return inConfig["config"]["max_responses"];
+    }
+    else {
+        return 5;
+    }
 }
 
 void ConverterJSON::GetFileAddresses(std::vector<std::string> &list) {
