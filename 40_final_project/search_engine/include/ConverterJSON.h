@@ -7,7 +7,8 @@
 #ifndef SEARCH_ENGINE_SEARCHSERVER_H
 #define SEARCH_ENGINE_SEARCHSERVER_H
 
-class ConverterJSON {
+class ConverterJSON
+{
 public:
     ConverterJSON() = default;
 
@@ -17,7 +18,6 @@ public:
 
 private:
     static void GetFileAddresses(std::vector<std::string>& list);
-
 };
 
 #endif //SEARCH_ENGINE_SEARCHSERVER_H
