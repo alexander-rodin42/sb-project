@@ -65,10 +65,11 @@ void InvertedIndex::documentIndexing(size_t docId, const std::string& doc)
             freqDictionaryAccess.lock();
             replaceCapitalLetters(word);
 
-            if (freqDictionary.find(word) != freqDictionary.end())
-            {
-                bool entryIsFind = false;
+            bool entryIsFind = false;
+            bool wordIsFind = freqDictionary.find(word) != freqDictionary.end();
 
+            if (wordIsFind)
+            {
                 for (size_t j = 0; j < freqDictionary[word].size() && !entryIsFind; ++j)
                 {
                     if(freqDictionary[word][j].docId == docId)
@@ -77,14 +78,9 @@ void InvertedIndex::documentIndexing(size_t docId, const std::string& doc)
                         entryIsFind = true;
                     }
                 }
-
-                if (!entryIsFind)
-                {
-                    Entry result{ docId, 1 };
-                    freqDictionary[word].push_back(result);
-                }
             }
-            else
+
+            if (!wordIsFind || !entryIsFind)
             {
                 Entry result{ docId, 1 };
                 freqDictionary[word].push_back(result);
