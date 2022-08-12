@@ -29,7 +29,7 @@ public:
     std::vector<Entry> GetWordCount(std::string word);
 
 private:
-    std::map<std::string, std::vector<Entry>> freqDictionary;
+    std::map<std::string, std::map<size_t, Entry>> freqDictionary;
     std::mutex freqDictionaryAccess;
 
     void documentIndexing(size_t docId, const std::string& doc);

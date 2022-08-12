@@ -40,11 +40,11 @@ std::vector<Entry> InvertedIndex::GetWordCount(std::string word)
     std::vector<Entry> result;
     WordHandler::replaceCapitalLetters(word);
 
-    if (freqDictionary.find(word) != freqDictionary.end())
-    {
-        result = freqDictionary[word];
+    if (freqDictionary.find(word) != freqDictionary.end()) {
+        for (auto & i : freqDictionary[word]) {
+            result.push_back(i.second);
+        }
     }
-
     freqDictionaryAccess.unlock();
     return result;
 }
@@ -54,26 +54,26 @@ void InvertedIndex::documentIndexing(size_t docId, const std::string& doc)
     std::vector<std::string> words(WordHandler::getWords(doc));
 
     freqDictionaryAccess.lock();
-    for (auto & word : words) {
+
+    for (auto & word : words)
+    {
         bool entryIsFind = false;
         bool wordIsFind = freqDictionary.find(word) != freqDictionary.end();
 
         if (wordIsFind) {
-            for (size_t j = 0; j < freqDictionary[word].size() && !entryIsFind; ++j)
+            if (freqDictionary[word].find(docId) != freqDictionary[word].end())
             {
-                if(freqDictionary[word][j].docId == docId)
-                {
-                    ++freqDictionary[word][j].count;
-                    entryIsFind = true;
-                }
+                ++freqDictionary[word][docId].count;
+                entryIsFind = true;
             }
         }
 
         if (!wordIsFind || !entryIsFind)
         {
             Entry result{ docId, 1 };
-            freqDictionary[word].push_back(result);
+            freqDictionary[word][docId] = result;
         }
+
     }
     freqDictionaryAccess.unlock();
 }
