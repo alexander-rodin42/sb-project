@@ -7,6 +7,7 @@
 #ifndef SEARCH_ENGINE_INVERTEDINDEX_H
 #define SEARCH_ENGINE_INVERTEDINDEX_H
 
+#include <map>
 #include <mutex>
 
 struct Entry
@@ -14,7 +15,7 @@ struct Entry
     size_t docId;
     size_t count;
 
-    bool operator == (const Entry& other) const;
+    bool operator==(const Entry& other) const;
 };
 
 class InvertedIndex
@@ -28,12 +29,10 @@ public:
     std::vector<Entry> GetWordCount(std::string word);
 
 private:
-    std::vector<std::string> docs;
     std::map<std::string, std::vector<Entry>> freqDictionary;
     std::mutex freqDictionaryAccess;
 
     void documentIndexing(size_t docId, const std::string& doc);
-    static void replaceCapitalLetters(std::string& word);
 };
 
 

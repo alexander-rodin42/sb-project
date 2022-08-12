@@ -32,7 +32,7 @@ TEST(TestCaseInvertedIndex, BasicTest)
             " london is the capital of great britain ",
             " big ben is the nickname for the Great bell of the striking clock "
     };
-    const std::vector<std::string> requests = {"london", "the"};
+    const std::vector<std::string> requests = { "london", "the" };
     const std::vector<std::vector<Entry>> expected = {
             { {0, 1} },
             { {0, 1}, {1, 3} }
@@ -49,7 +49,7 @@ TEST(TestCaseInvertedIndex, BasicTest2)
             "milk milk milk milk milk water water water water water",
             "americano cappuccino"
     };
-    const std::vector<std::string> requests = {"milk", "water", "cappuccino"};
+    const std::vector<std::string> requests = { "milk", "water", "cappuccino" };
     const std::vector<std::vector<Entry>> expected = {
             { {0, 4}, {1, 1}, {2, 5} },
             { {0, 3}, {1, 2}, {2, 5} },
@@ -65,7 +65,7 @@ TEST(TestCaseInvertedIndex, InvertedIndexMissingWordTest)
             "a b c d e f g h i j l",
             "statement"
     };
-    const std::vector<std::string> requests = {"m", "statement"};
+    const std::vector<std::string> requests = { "m", "statement" };
     const std::vector<std::vector<Entry>> expected = {
             { },
             { {1, 1} }
@@ -80,7 +80,7 @@ TEST(TestCaseInvertedIndex, LetterCaseTestInvertedIndex)
             "Milk milk MIlk WATER",
             "Water milk milK water wateR"
     };
-    const std::vector<std::string> requests = {"Milk", "milk", "WATER"};
+    const std::vector<std::string> requests = { "Milk", "milk", "WATER" };
     const std::vector<std::vector<Entry>> expected = {
             { {0, 3}, {1, 2} },
             { {0, 3}, {1, 2} },

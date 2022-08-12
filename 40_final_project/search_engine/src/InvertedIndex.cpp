@@ -5,10 +5,10 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <map>
 #include <thread>
 
 #include "InvertedIndex.h"
+#include "WordHandler.h"
 
 bool Entry::operator==(const Entry &other) const
 {
@@ -38,7 +38,7 @@ std::vector<Entry> InvertedIndex::GetWordCount(std::string word)
 {
     freqDictionaryAccess.lock();
     std::vector<Entry> result;
-    replaceCapitalLetters(word);
+    WordHandler::replaceCapitalLetters(word);
 
     if (freqDictionary.find(word) != freqDictionary.end())
     {
@@ -51,54 +51,34 @@ std::vector<Entry> InvertedIndex::GetWordCount(std::string word)
 
 void InvertedIndex::documentIndexing(size_t docId, const std::string& doc)
 {
-    std::string word;
+    std::vector<std::string> words(WordHandler::getWords(doc));
 
-    for (int i = 0; i < doc.size(); ++i)
-    {
-        if (doc[i] >= 'a' && doc[i] <= 'z' || doc[i] >= 'A' && doc[i] <= 'Z')
-        {
-            word += doc[i];
-        }
+    freqDictionaryAccess.lock();
+    for (auto & word : words) {
+        bool entryIsFind = false;
+        bool wordIsFind = freqDictionary.find(word) != freqDictionary.end();
 
-        if ((i == doc.size() - 1 || (doc[i] == ' ' || doc[i] == '\n')) && !word.empty())
-        {
-            freqDictionaryAccess.lock();
-            replaceCapitalLetters(word);
-
-            bool entryIsFind = false;
-            bool wordIsFind = freqDictionary.find(word) != freqDictionary.end();
-
-            if (wordIsFind)
+        if (wordIsFind) {
+            for (size_t j = 0; j < freqDictionary[word].size() && !entryIsFind; ++j)
             {
-                for (size_t j = 0; j < freqDictionary[word].size() && !entryIsFind; ++j)
+                if(freqDictionary[word][j].docId == docId)
                 {
-                    if(freqDictionary[word][j].docId == docId)
-                    {
-                        ++freqDictionary[word][j].count;
-                        entryIsFind = true;
-                    }
+                    ++freqDictionary[word][j].count;
+                    entryIsFind = true;
                 }
             }
+        }
 
-            if (!wordIsFind || !entryIsFind)
-            {
-                Entry result{ docId, 1 };
-                freqDictionary[word].push_back(result);
-            }
-            freqDictionaryAccess.unlock();
-
-            word.clear();
+        if (!wordIsFind || !entryIsFind)
+        {
+            Entry result{ docId, 1 };
+            freqDictionary[word].push_back(result);
         }
     }
+    freqDictionaryAccess.unlock();
 }
 
-void InvertedIndex::replaceCapitalLetters(std::string& word) {
-    for (char & i : word){
-        if (i >= 'A' && i <= 'Z') {
-            i += 32;
-        }
-    }
-}
+
 
 
 
