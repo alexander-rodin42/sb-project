@@ -116,11 +116,11 @@ int main()
         InvertedIndex invertedIndex;
         invertedIndex.UpdateDocumentBase(textDocuments);
         //
-        std::vector<Entry> eVector = invertedIndex.GetWordCount("milk");
+        std::map<size_t, size_t> eMap = invertedIndex.GetWordCount("milk");
         //
         std::cout << "-----------" << std::endl;
-        for (auto & entry : eVector) {
-            std::cout << entry.docId << " " << entry.count << std::endl;
+        for (auto & entry : eMap) {
+            std::cout << entry.first << " " << entry.second << std::endl;
         }
     }
     return 0;

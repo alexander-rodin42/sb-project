@@ -22,13 +22,11 @@ TEST(TestCase, BasicTest3)
         size_t firstCount = 0;
         size_t secondCount = 0;
 
-        std::vector<Entry> entry(index.GetWordCount(first));
-
-        for (auto & i : entry) firstCount += i.count;
+        std::map<size_t, size_t> entry(index.GetWordCount(first));
+        for (auto & i : entry) firstCount += i.second;
 
         entry = index.GetWordCount(second);
-
-        for (auto & i : entry) secondCount += i.count;
+        for (auto & i : entry) secondCount += i.second;
 
         return firstCount < secondCount;
     });

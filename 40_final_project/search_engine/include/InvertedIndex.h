@@ -10,13 +10,13 @@
 #include <map>
 #include <mutex>
 
-struct Entry
-{
-    size_t docId;
-    size_t count;
-
-    bool operator==(const Entry& other) const;
-};
+//struct Entry
+//{
+//    size_t docId;
+//    size_t count;
+//
+//    bool operator==(const Entry& other) const;
+//};
 
 class InvertedIndex
 {
@@ -26,10 +26,11 @@ public:
     void operator=( const InvertedIndex& ) = delete;
 
     void UpdateDocumentBase(const std::vector<std::string>& inputDocs);
-    std::vector<Entry> GetWordCount(std::string word);
+    std::map<size_t, size_t> GetWordCount(std::string word);
+
 
 private:
-    std::map<std::string, std::map<size_t, Entry>> freqDictionary;
+    std::map<std::string, std::map<size_t, size_t>> freqDictionary;
     std::mutex freqDictionaryAccess;
 
     void documentIndexing(size_t docId, const std::string& doc);

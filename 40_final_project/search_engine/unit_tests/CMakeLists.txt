@@ -20,8 +20,10 @@ add_executable(unit_tests
         main.cpp
         InvertedIndex_test/InvertedIndexBasicTest.cpp
         WordHandler_test/WordHandlerBasicTest.cpp
+        SearchServer_test/SearchServerBasicTest.cpp
         ../src/InvertedIndex.cpp ../include/InvertedIndex.h
         ../src/WordHandler.cpp ../include/WordHandler.h
+        ../src/SearchServer.cpp ../include/SearchServer.h
         )
 
 target_include_directories(unit_tests PUBLIC ../include)

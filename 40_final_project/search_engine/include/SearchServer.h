@@ -19,14 +19,19 @@ struct RelativeIndex
 
 class SearchServer {
 public:
-    explicit SearchServer(std::vector<std::string>& inputDocs, const int& inputResponsesLimit);
+    explicit SearchServer(const std::vector<std::string>& inputDocs, const int& inputResponsesLimit);
     std::vector<std::vector<RelativeIndex>> search(const std::vector<std::string>& inputRequests);
 
-    void sortToEntry(std::vector<std::string>& words);
+    void sortByRarity(std::vector<std::string>& words);
 
 private:
     InvertedIndex index;
     int responsesLimit;
+
+    std::map<size_t, size_t> getListDocContainingWords(const std::vector<std::string>& request);
+    std::vector<RelativeIndex> calculateRelevance(
+            const std::map<size_t, size_t>& docList,
+            const std::vector<std::string>& request);
 };
 
 #endif //SEARCH_ENGINE_SEARCHSERVER_H

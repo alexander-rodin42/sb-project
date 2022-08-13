@@ -10,16 +10,16 @@
 void TestInvertedIndexFunctionality(
         const std::vector<std::string>& docs,
         const std::vector<std::string>& requests,
-        const std::vector<std::vector<Entry>>& expected)
+        const std::vector<std::map<size_t, size_t>>& expected)
 {
-    std::vector<std::vector<Entry>> result;
+    std::vector<std::map<size_t, size_t>> result;
     InvertedIndex index;
 
     index.UpdateDocumentBase(docs);
 
     for(auto & request : requests)
     {
-        std::vector<Entry> wordCount = index.GetWordCount(request);
+        std::map<size_t, size_t> wordCount = index.GetWordCount(request);
         result.push_back(wordCount);
     }
 
@@ -33,7 +33,7 @@ TEST(TestCaseInvertedIndex, BasicTest)
             " big ben is the nickname for the Great bell of the striking clock "
     };
     const std::vector<std::string> requests = { "london", "the" };
-    const std::vector<std::vector<Entry>> expected = {
+    const std::vector<std::map<size_t, size_t>> expected = {
             { {0, 1} },
             { {0, 1}, {1, 3} }
     };
@@ -50,7 +50,7 @@ TEST(TestCaseInvertedIndex, BasicTest2)
             "americano cappuccino"
     };
     const std::vector<std::string> requests = { "milk", "water", "cappuccino" };
-    const std::vector<std::vector<Entry>> expected = {
+    const std::vector<std::map<size_t, size_t>> expected = {
             { {0, 4}, {1, 1}, {2, 5} },
             { {0, 3}, {1, 2}, {2, 5} },
             { {3, 1} }
@@ -66,7 +66,7 @@ TEST(TestCaseInvertedIndex, InvertedIndexMissingWordTest)
             "statement"
     };
     const std::vector<std::string> requests = { "m", "statement" };
-    const std::vector<std::vector<Entry>> expected = {
+    const std::vector<std::map<size_t, size_t>> expected = {
             { },
             { {1, 1} }
     };
@@ -81,7 +81,7 @@ TEST(TestCaseInvertedIndex, LetterCaseTestInvertedIndex)
             "Water milk milK water wateR"
     };
     const std::vector<std::string> requests = { "Milk", "milk", "WATER" };
-    const std::vector<std::vector<Entry>> expected = {
+    const std::vector<std::map<size_t, size_t>> expected = {
             { {0, 3}, {1, 2} },
             { {0, 3}, {1, 2} },
             { {0, 1}, {1, 3} }

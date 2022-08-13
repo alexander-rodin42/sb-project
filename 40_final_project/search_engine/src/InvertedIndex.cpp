@@ -10,11 +10,11 @@
 #include "InvertedIndex.h"
 #include "WordHandler.h"
 
-bool Entry::operator==(const Entry &other) const
-{
-    return (docId == other.docId &&
-            count == other.count);
-}
+//bool Entry::operator==(const Entry &other) const
+//{
+//    return (docId == other.docId &&
+//            count == other.count);
+//}
 
 void InvertedIndex::UpdateDocumentBase(const std::vector<std::string>& inputDocs)
 {
@@ -34,16 +34,14 @@ void InvertedIndex::UpdateDocumentBase(const std::vector<std::string>& inputDocs
     }
 }
 
-std::vector<Entry> InvertedIndex::GetWordCount(std::string word)
+std::map<size_t, size_t> InvertedIndex::GetWordCount(std::string word)
 {
     freqDictionaryAccess.lock();
-    std::vector<Entry> result;
+    std::map<size_t, size_t> result;
     WordHandler::replaceCapitalLetters(word);
 
     if (freqDictionary.find(word) != freqDictionary.end()) {
-        for (auto & i : freqDictionary[word]) {
-            result.push_back(i.second);
-        }
+        result = freqDictionary[word];
     }
     freqDictionaryAccess.unlock();
     return result;
@@ -63,17 +61,15 @@ void InvertedIndex::documentIndexing(size_t docId, const std::string& doc)
         if (wordIsFind) {
             if (freqDictionary[word].find(docId) != freqDictionary[word].end())
             {
-                ++freqDictionary[word][docId].count;
+                ++freqDictionary[word][docId];
                 entryIsFind = true;
             }
         }
 
         if (!wordIsFind || !entryIsFind)
         {
-            Entry result{ docId, 1 };
-            freqDictionary[word][docId] = result;
+            freqDictionary[word][docId] = 1;
         }
-
     }
     freqDictionaryAccess.unlock();
 }
