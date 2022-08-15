@@ -7,17 +7,16 @@
 #include "gtest/gtest.h"
 #include "SearchServer.h"
 
-TEST(TestCaseSearchServer, SimpleTest)
-{
+TEST(TestCaseSearchServer, SimpleTest) {
     const std::vector<std::string> docs = {
             "milk milk milk milk water water water",
             "milk water water",
             "milk milk milk milk milk water water water water water",
             "americano cappuccino"
     };
-    const std::vector<std::string> requests = { "milk water", "sugar" };
+    const std::vector<std::string> requests = {"milk water", "sugar"};
     const std::vector<std::vector<RelativeIndex>> expected = {
-            { {2, 1}, {0, 0.7}, {1, 0.3} },
+            {{2, 1}, {0, 0.7}, {1, 0.3}},
             {}
     };
 
@@ -27,8 +26,7 @@ TEST(TestCaseSearchServer, SimpleTest)
     ASSERT_EQ(result, expected);
 }
 
-TEST(TestCaseSearchServer, TopFiveTest)
-{
+TEST(TestCaseSearchServer, TopFiveTest) {
     const std::vector<std::string> docs = {
             "london is the capital of great britain",
             "paris is the capital of france",
@@ -53,14 +51,14 @@ TEST(TestCaseSearchServer, TopFiveTest)
             "tallinn is the capital of estonia",
             "warsaw is the capital of poland"
     };
-    const std::vector<std::string> requests = { "moscow is the capital of russia" };
+    const std::vector<std::string> requests = {"moscow is the capital of russia"};
     const std::vector<std::vector<RelativeIndex>> expected = {
             {
-                {7, 1},
-                {14, 1},
-                {0, 0.666666687},
-                {1, 0.666666687},
-                {2, 0.666666687}
+                    {7, 1},
+                    {14, 1},
+                    {0, 0.666666687},
+                    {1, 0.666666687},
+                    {2, 0.666666687}
             },
     };
 

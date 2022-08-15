@@ -4,7 +4,7 @@
 
 #include "CustomExceptions.h"
 
-const char* ConfigFileIsMissing::what() const noexcept {
+const char *ConfigFileIsMissing::what() const noexcept {
     return "Config file is missing.";
 }
 

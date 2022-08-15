@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
-project(search_engine)
+
+set(PROJECT_NAME search_engine)
+project(${PROJECT_NAME})
 
 set(CMAKE_CXX_STANDARD 14)
 
@@ -13,7 +15,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(json)
 
-add_executable(search_engine src/main.cpp
+add_executable(${PROJECT_NAME} src/main.cpp
         src/ConverterJSON.cpp include/ConverterJSON.h
         src/InvertedIndex.cpp include/InvertedIndex.h
         src/SearchServer.cpp  include/SearchServer.h
@@ -21,5 +23,5 @@ add_executable(search_engine src/main.cpp
         src/WordHandler.cpp include/WordHandler.h
         )
 
-target_include_directories(search_engine PUBLIC include)
-target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
+target_include_directories(${PROJECT_NAME} PUBLIC include)
+target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
