@@ -10,62 +10,95 @@
 #include "SearchServer.h"
 #include "WordHandler.h"
 
-bool RelativeIndex::operator==(const RelativeIndex &other) const
-{
+bool RelativeIndex::operator==(const RelativeIndex &other) const {
     return (docId == other.docId &&
             rank == other.rank);
 }
 
-SearchServer::SearchServer(std::vector<std::string>& inputDocs, const int& inputResponsesLimit)
-: responsesLimit(inputResponsesLimit)
-{
+SearchServer::SearchServer(const std::vector<std::string> &inputDocs, const int &inputResponsesLimit)
+        : responsesLimit(inputResponsesLimit) {
     index.UpdateDocumentBase(inputDocs);
 }
 
-std::vector<std::vector<RelativeIndex>> SearchServer::search(const std::vector<std::string>& inputRequests)
-{
+std::vector<std::vector<RelativeIndex>> SearchServer::search(const std::vector<std::string> &inputRequests) {
     std::vector<std::vector<std::string>> uniqueWordsInRequests;
+    uniqueWordsInRequests.reserve(inputRequests.size());
 
-    for (int i = 0; i < inputRequests.size(); ++i)
-    {
-        uniqueWordsInRequests.push_back(WordHandler::chooseUniqueWords(inputRequests[i]));
-        sortToEntry(uniqueWordsInRequests[i]);
+    for (const auto &request: inputRequests)
+        uniqueWordsInRequests.push_back(WordHandler::chooseUniqueWords(request));
+
+    std::vector<std::vector<RelativeIndex>> result;
+
+    for (auto &request: uniqueWordsInRequests) {
+        std::vector<size_t> docList = getListDocContainingWords(request);
+        std::vector<RelativeIndex> requestResult;
+
+        if (!docList.empty())
+            requestResult = calculateRelevance(docList, request);
+
+        result.push_back(requestResult);
     }
-
-    //std::vector<std::vector<RelativeIndex>> result;
-
-    for (auto & request : uniqueWordsInRequests)
-    {
-        std::map<size_t, size_t> suitableFiles;
-
-        for (auto & words : request)
-        {
-            bool wordIsFind = true;
-
-        }
-
-    }
-
-
-
-
-    return std::vector<std::vector<RelativeIndex>>();
+    return result;
 }
 
-void SearchServer::sortToEntry(std::vector<std::string> &words) {
-    std::sort(words.begin(), words.end(), [this](std::string& first, std::string& second)
-    {
-      size_t firstCount = 0;
-      size_t secondCount = 0;
+std::vector<size_t> SearchServer::getListDocContainingWords(const std::vector<std::string> &request) {
+    std::vector<size_t> result;
 
-      std::vector<Entry> entry(index.GetWordCount(first));
-      for (auto & i : entry) firstCount += i.count;
+    for (const auto &word: request) {
+        std::map<size_t, size_t> comparedDocList(index.GetWordCount(word));
 
-      entry = index.GetWordCount(second);
-      for (auto & i : entry) secondCount += i.count;
+        for (auto &i: comparedDocList) {
+            bool docIsFound = false;
 
-      return firstCount < secondCount;
+            for (int j = 0; j < result.size() && !docIsFound; ++j) {
+                if (result[j] == i.first)
+                    docIsFound = true;
+            }
+
+            if (!docIsFound)
+                result.push_back(i.first);
+        }
+    }
+    return result;
+}
+
+std::vector<RelativeIndex>
+SearchServer::calculateRelevance(const std::vector<size_t> &docList,
+                                 const std::vector<std::string> &request) {
+    std::vector<RelativeIndex> result;
+    size_t absoluteRelevance = 0;
+
+    for (auto &i: docList) {
+        size_t relevance = 0.0f;
+
+        for (auto &word: request) {
+            std::map<size_t, size_t> temp = index.GetWordCount(word);
+
+            if (temp.find(i) != temp.end())
+                relevance += temp[i];
+        }
+
+        if (relevance > absoluteRelevance)
+            absoluteRelevance = relevance;
+
+        RelativeIndex currentDoc = {i, (float) relevance};
+        result.push_back(currentDoc);
+    }
+
+    for (auto &doc: result)
+        doc.rank /= (float) absoluteRelevance;
+
+    std::sort(result.begin(), result.end(), [](const RelativeIndex &first, const RelativeIndex &second) {
+        if (first.rank == second.rank)
+            return first.docId < second.docId;
+        else
+            return first.rank > second.rank;
     });
+
+    if (result.size() > responsesLimit)
+        result.resize(responsesLimit);
+
+    return result;
 }
 
 

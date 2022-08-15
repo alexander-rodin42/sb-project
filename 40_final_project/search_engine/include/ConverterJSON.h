@@ -4,20 +4,20 @@
 
 #pragma once
 
-#ifndef SEARCH_ENGINE_SEARCHSERVER_H
-#define SEARCH_ENGINE_SEARCHSERVER_H
+#include "SearchServer.h"
 
-class ConverterJSON
-{
+class ConverterJSON {
 public:
     ConverterJSON() = default;
 
     static std::vector<std::string> GetTextDocuments();
+
     static std::vector<std::string> GetRequests();
+
     static int GetResponsesLimit();
 
-private:
-    static void GetFileAddresses(std::vector<std::string>& list);
-};
+    static void putAnswers(const std::vector<std::vector<RelativeIndex>> &answers);
 
-#endif //SEARCH_ENGINE_SEARCHSERVER_H
+private:
+    static void GetFileAddresses(std::vector<std::string> &list);
+};

@@ -4,36 +4,24 @@
 
 #pragma once
 
-#ifndef SEARCH_ENGINE_INVERTEDINDEX_H
-#define SEARCH_ENGINE_INVERTEDINDEX_H
-
 #include <map>
 #include <mutex>
 
-struct Entry
-{
-    size_t docId;
-    size_t count;
-
-    bool operator==(const Entry& other) const;
-};
-
-class InvertedIndex
-{
+class InvertedIndex {
 public:
     InvertedIndex() = default;
-    InvertedIndex( const InvertedIndex& ) = delete;
-    void operator=( const InvertedIndex& ) = delete;
 
-    void UpdateDocumentBase(const std::vector<std::string>& inputDocs);
-    std::vector<Entry> GetWordCount(std::string word);
+    InvertedIndex(const InvertedIndex &index) = delete;
+
+    void operator=(const InvertedIndex &index) = delete;
+
+    void UpdateDocumentBase(const std::vector<std::string> &inputDocs);
+
+    std::map<size_t, size_t> GetWordCount(std::string word);
 
 private:
-    std::map<std::string, std::vector<Entry>> freqDictionary;
+    std::map<std::string, std::map<size_t, size_t>> freqDictionary;
     std::mutex freqDictionaryAccess;
 
-    void documentIndexing(size_t docId, const std::string& doc);
+    void documentIndexing(size_t docId, const std::string &doc);
 };
-
-
-#endif //SEARCH_ENGINE_INVERTEDINDEX_H
