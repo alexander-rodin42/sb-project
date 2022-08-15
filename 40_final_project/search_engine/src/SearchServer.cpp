@@ -76,7 +76,7 @@ std::map<size_t, size_t> SearchServer::getListDocContainingWords(const std::vect
         std::map<size_t, size_t> comparedDocList(index.GetWordCount(request[i]));
         std::vector<size_t> docIdForRemoving;
 
-        for (auto &j: docList)
+        for (auto & j : docList)
         {
             if (comparedDocList.find(j.first) == comparedDocList.end())
             {
@@ -84,9 +84,9 @@ std::map<size_t, size_t> SearchServer::getListDocContainingWords(const std::vect
             }
         }
 
-        for (auto &j: docIdForRemoving)
+        for (auto & j : docIdForRemoving)
         {
-            comparedDocList.erase(j);
+            docList.erase(j);
         }
     }
     return docList;

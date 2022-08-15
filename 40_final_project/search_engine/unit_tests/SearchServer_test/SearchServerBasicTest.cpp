@@ -65,6 +65,7 @@ TEST(TestCaseSearchServer, TopFiveTest)
     };
 
     SearchServer srv(docs, 5);
+
     std::vector<std::vector<RelativeIndex>> result = srv.search(requests);
 
     ASSERT_EQ(result, expected);
