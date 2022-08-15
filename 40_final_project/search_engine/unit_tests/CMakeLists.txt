@@ -31,10 +31,5 @@ target_include_directories(unit_tests PUBLIC ../include)
 target_include_directories(unit_tests PUBLIC gtest_main)
 target_link_libraries(unit_tests PRIVATE gtest_main)
 
-#target_link_libraries(
-#        search_engine_test
-#        GTest::gtest_main
-#)
-
 include(GoogleTest)
 gtest_discover_tests(unit_tests)

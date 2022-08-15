@@ -4,9 +4,11 @@
 
 #include "nlohmann/json.hpp"
 
+
+#include "SearchServer.h"
 #include "ConverterJSON.h"
 #include "CustomExceptions.h"
-#include "InvertedIndex.h"
+
 
 void printProgramName(nlohmann::json& config)
 {
@@ -98,30 +100,8 @@ int main()
 {
     if (isReadyToStart())
     {
-        //
-        std::vector<std::string> textDocuments = ConverterJSON::GetTextDocuments();
-        for (int i = 0; i < textDocuments.size(); ++i)
-        {
-            std::cout << i + 1 << ": " << textDocuments[i] << std::endl;
-        }
-        //
-        std::vector<std::string> responses = ConverterJSON::GetRequests();
-        for (int i = 0; i < responses.size(); ++i)
-        {
-            std::cout << i + 1 << ": " << responses[i] << std::endl;
-        }
-        //
-        std::cout << "Responses limit: " << ConverterJSON::GetResponsesLimit() << std::endl;
-        //
-        InvertedIndex invertedIndex;
-        invertedIndex.UpdateDocumentBase(textDocuments);
-        //
-        std::map<size_t, size_t> eMap = invertedIndex.GetWordCount("milk");
-        //
-        std::cout << "-----------" << std::endl;
-        for (auto & entry : eMap) {
-            std::cout << entry.first << " " << entry.second << std::endl;
-        }
+        SearchServer searchServer(ConverterJSON::GetTextDocuments(), ConverterJSON::GetResponsesLimit());
+        ConverterJSON::putAnswers(searchServer.search(ConverterJSON::GetRequests()));
     }
     return 0;
 }
