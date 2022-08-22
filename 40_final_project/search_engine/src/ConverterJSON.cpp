@@ -82,7 +82,7 @@ void ConverterJSON::putAnswers(const std::vector<std::vector<RelativeIndex>> &an
     nlohmann::json outAnswers;
 
     for (int i = 0; i < answers.size(); ++i) {
-        std::string request = "request" + WordHandler::getPositionNumber(i);
+        std::string request = "request" + WordHandler::getPositionNumber(i + 1);
 
         if (answers[i].empty())
             outAnswers["answers"][request]["result"] = false;
