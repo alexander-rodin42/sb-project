@@ -28,6 +28,7 @@ SharedPtrToy& SharedPtrToy::operator=(const SharedPtrToy &other) {
         if (*referenceCount <= 1) {
             std::cout << obj->getName() << " deleted." << std::endl;
             delete obj;
+            delete referenceCount;
         }
         else {
             *referenceCount -= 1;
@@ -54,6 +55,7 @@ void SharedPtrToy::reset() {
     if (*referenceCount <= 1) {
         std::cout << obj->getName() << " deleted." << std::endl;
         delete obj;
+        delete referenceCount;
     }
     else {
         *referenceCount -= 1;

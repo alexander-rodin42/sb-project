@@ -20,7 +20,7 @@ public:
     operator bool();
     bool owner_before(const SharedPtrToy& other);
 private:
-    Toy* obj{};
-    int* referenceCount{};
+    Toy* obj = nullptr;
+    int* referenceCount = nullptr;
 };
 
