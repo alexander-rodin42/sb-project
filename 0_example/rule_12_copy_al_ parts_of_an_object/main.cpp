@@ -74,7 +74,8 @@ public:
 
 	explicit SecondPriorityCustomer(const int inPriority) : priority(inPriority) {}
 
-	//в примере из книги вызывается : Customer(other)      тут---V
+	//in the example from the book, : Customer(other) is called here
+	//                                                          V
 
 	SecondPriorityCustomer(const SecondPriorityCustomer& other) : SecondPriorityCustomer(other.priority)
 	{
